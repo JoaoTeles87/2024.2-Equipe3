@@ -7,3 +7,4 @@ SCENARIO: Visualizar salas de reunião disponíveis em 15/01 das 14h às 15h com
     AND no campo “Equipamentos” está selecionada a opção “Ar-condicionado"
     WHEN eu seleciono a opção “Procurar"
     THEN é exibida a sala "E001" como sala disponível e "bem" avaliada
+    THEN o user "aroldo@mail.com" volta á página de "login".
