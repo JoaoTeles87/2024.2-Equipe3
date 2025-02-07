@@ -56,6 +56,38 @@ npm run dev
 
 This command will run the React app in development with Vite.js script
 
+## Rodando  o backend Flask
+
+No powerShell mude para o diretório backend
+```
+cd backend
+```
+
+Crie a venv
+```
+python -m venv venv
+```
+Ative a venv
+```
+venv\Scripts\activate
+```
+e agora você deve instalar todas as dependencias do projeto 
+
+```
+pip install -r requirements.txt
+```
+
+obs: caso sejam necessárias novas bibliotecas e deseja atualizar o requirements.txt por favor recirar arquivo.
+```
+pip freeze > requirements.txt
+```
+
+Rodando servidor Flask localmente na rota 5000.
+```
+python main.py
+```
+
+
 ## Running the tests
 
 There are two types of tests configured in the base project: unit tests using Vitest with React Testing Library and E2E acceptance tests using Cypress with Cucumber. It's interesting to create the **.env.testing** at the root of the project the same way it was created to run in development, changing the necessary values.
