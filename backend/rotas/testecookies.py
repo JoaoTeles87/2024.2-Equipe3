@@ -10,7 +10,6 @@ def area_restrita():
     user_id = get_jwt_identity()  # Obtém o ID do usuário autenticado
     mensagem = {"message": f"Acesso permitido para o usuário {str(user_id)}"}
 
-    # 🔥 Usando `json.dumps(..., ensure_ascii=False)` para evitar Unicode
     response = make_response(json.dumps(mensagem, ensure_ascii=False), 200)
     response.headers["Content-Type"] = "application/json; charset=utf-8"
     
