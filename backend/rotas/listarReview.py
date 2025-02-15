@@ -6,6 +6,9 @@ listar_reviews_bp = Blueprint("listar_reviews", __name__)
 @listar_reviews_bp.route("/api/reviews", methods=["GET"])
 def listar_reviews():
     reviews = ReviewSala.query.all()
+    if not reviews:
+        return jsonify({"error": "Nenhuma avaliação encontrada."}), 404
+    
     resultado = []
     for review in reviews:
         resultado.append({
