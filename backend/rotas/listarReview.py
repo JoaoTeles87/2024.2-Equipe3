@@ -21,4 +21,4 @@ def listar_reviews():
             "comentario": review.comentario,
             "data_avaliacao": review.data_avaliacao
         })
-    return jsonify(resultado)
+    return jsonify(resultado), 200
