@@ -10,4 +10,4 @@ def excluir_solicitacao_recursos(id):
     solicitacao = SolicitacaoRecursos.query.get_or_404(id)
     db.session.delete(solicitacao)
     db.session.commit()
-    return jsonify({"message": "Solicitação excluída"}), 200
+    return jsonify({"message": "Solicitação excluída"}), 204

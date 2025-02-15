@@ -9,6 +9,12 @@ editar_manutencao_bp = Blueprint("editarmanutencao", __name__)
 def editar_solicitacao_manutencao(id):
     solicitacao = SolicitacaoManutencao.query.get_or_404(id)
     dados = request.json
-    solicitacao.descricao = dados.get("descricao", solicitacao.descricao)
+
+        # Verifica se a nova descrição é vazia ou apenas espaços em branco
+    nova_descricao = dados.get("descricao", solicitacao.descricao)
+    if not nova_descricao.strip():
+        return jsonify({"error": "A descrição da manutenção não pode ser vazia"}), 400
+
+    solicitacao.descricao = nova_descricao
     db.session.commit()
     return jsonify({"message": "Solicitação de manutenção atualizada com sucesso"}), 200
