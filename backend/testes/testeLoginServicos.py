@@ -7,7 +7,7 @@ from ..modelo.usuario import Usuario
 from werkzeug.security import generate_password_hash
 
 # Criando um app Flask para testar a API
-@pytest.fixture
+@pytest.fixture(scope="module")  # Agora com escopo de módulo
 def app():
     aplicacao = Flask(__name__)
     aplicacao.register_blueprint(login_bp)
@@ -22,16 +22,15 @@ def app():
         db.session.remove()
         db.drop_all()
 
-
 # Fixture para simular o cliente de testes
-@pytest.fixture
+@pytest.fixture(scope="module")
 def client(app):
     with app.test_client() as client:
         yield client
 
-@pytest.fixture
+@pytest.fixture(scope="module", autouse=True)
 def setup_database(app):
-    """Popula o banco de dados com um usuário de teste."""
+    """Popula o banco de dados com um usuário de teste antes dos testes rodarem."""
     with app.app_context():
         usuario = Usuario(
             nome="Demosténes",
@@ -43,7 +42,9 @@ def setup_database(app):
         )
         db.session.add(usuario)
         db.session.commit()
-    
+        yield
+        db.session.remove()
+        db.drop_all()
 
 # Fixture para armazenar contexto entre os testes
 @pytest.fixture
@@ -64,15 +65,16 @@ def testeFracassoLoginSemEmailOuSenha():
     pass
 
 # GIVEN: Configuração inicial do teste
-@given("o usuário possui um email e senha válidos")
-def usuarioValido(contexto):
-    contexto["email"] = "demostenes@example.com"
-    contexto["senha"] = "SecurePassword123"
+@given(parsers.parse('o usuário possui o email "{email}" e a senha "{senha}" válidos'))
+def usuarioCredenciais(contexto, email, senha):
+    contexto["email"] = email
+    contexto["senha"] = senha
+    print(f"\n✅ [DEBUG] Configurando usuário para login: Email: {email}, Senha: {senha}")
 
-@given("o usuário possui um email válido, mas senha inválida")
-def usuarioSenhaInvalida(contexto):
-    contexto["email"] = "demostenes@example.com"
-    contexto["senha"] = "SenhaIncorreta123"
+@given(parsers.parse('o usuário possui o email "{email}" válido e a senha "{senha}" inválida'))
+def usuarioSenhaInvalida(contexto, email, senha):
+    contexto["email"] = email
+    contexto["senha"] = senha
 
 @given("o usuário envia uma requisição sem email ou senha")
 def usuarioSemCredenciais(contexto):
@@ -80,42 +82,43 @@ def usuarioSemCredenciais(contexto):
     contexto["senha"] = ""
 
 # WHEN: Envio da requisição de login
-@when('ele envia uma requisição POST para "/api/login"')
-def enviarRequisicaoLogin(client, setup_database, contexto):
-    """Realiza uma requisição POST real para a API de login"""
+@when(parsers.parse('ele envia uma requisição POST para "/api/login" com os dados "{email}" e "{senha}"'), converters={"email": str, "senha": str})
+def enviarRequisicaoLogin(client, contexto, email, senha):
+    """Realiza uma requisição POST para a API de login, garantindo que valores vazios sejam tratados corretamente"""
+    
+    email = email if email else ''  # Garante string vazia se necessário
+    senha = senha if senha else ''  
 
-    resposta = client.post("/api/login", json={
-        "email": contexto["email"],
-        "senha": contexto["senha"]
-    })
+    print(f"\n🚀 [DEBUG] Enviando requisição para login | Email: {email if email else 'NÃO INFORMADO'} | Senha: {senha if senha else 'NÃO INFORMADO'}")
+
+    resposta = client.post("/api/login", json={"email": email, "senha": senha})
     contexto["resposta"] = resposta
+
+    print(f"🔹 [DEBUG] Status Code recebido: {resposta.status_code}")
+    print(f"🔹 [DEBUG] Resposta JSON recebida: {resposta.get_json()}")
 
 
 # THEN: Validações das respostas
 @then("a resposta deve conter os dados do usuário")
 def verificarRespostaSucesso(contexto):
     respostaJson = contexto["resposta"].get_json()
-   
+    print(f"✅ [DEBUG] Resposta esperada: redirect='reserva'")
+    print(f"✅ [DEBUG] Resposta recebida: {respostaJson}")
+    
     assert respostaJson["redirect"] == "reserva", f"Esperado: reserva, Recebido: {respostaJson}"
 
-@then('a resposta deve conter a mensagem "Usuário ou senha inválidos."')
-def verificarRespostaFalha(contexto):
+@then(parsers.parse('a resposta deve conter a mensagem "{mensagem}"'))
+def verificarRespostaFalha(contexto, mensagem):
     respostaJson = contexto["resposta"].get_json()
-    assert respostaJson["error"] == "Usuário ou senha inválidos."
+    print(f"✅ [DEBUG] Verificando erro esperado: {mensagem}")
+    print(f"✅ [DEBUG] Resposta recebida: {respostaJson}")
 
-@then('a resposta deve conter a mensagem "Usuário e senha são obrigatórios."')
-def verificarRespostaErroCampos(contexto):
-    respostaJson = contexto["resposta"].get_json()
-    assert respostaJson["error"] == "Usuário e senha são obrigatórios."
+    assert respostaJson["error"] == mensagem, f"Esperado: {mensagem}, Recebido: {respostaJson}"
 
-@then("o status code deve ser 200")
-def verificarStatusCode200(contexto):
-    assert contexto["resposta"].status_code == 200
+@then(parsers.parse('o status code deve ser "{status_code}"'))
+def verificarStatusCode(contexto, status_code):
+    status_code = int(status_code)  # Converte string para inteiro
+    print(f"✅ [DEBUG] Verificando status code esperado: {status_code}")
+    print(f"✅ [DEBUG] Status code recebido: {contexto['resposta'].status_code}")
 
-@then("o status code deve ser 401")
-def verificarStatusCode401(contexto):
-    assert contexto["resposta"].status_code == 401
-
-@then("o status code deve ser 400")
-def verificarStatusCode400(contexto):
-    assert contexto["resposta"].status_code == 400
+    assert contexto["resposta"].status_code == status_code, f"Esperado: {status_code}, Recebido: {contexto['resposta'].status_code}"

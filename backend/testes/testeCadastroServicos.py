@@ -19,13 +19,12 @@ def app():
 
     with aplicacao.app_context():
         db.init_app(aplicacao)  # Inicializa a extensão do banco
-        db.create_all()  # 🛑 Garante que as tabelas existem antes dos testes
+        db.create_all()
         yield aplicacao  # Executa os testes
         db.session.remove()
         db.drop_all()
 
 
-# 🛑 **Setup do banco de testes com dados iniciais**
 @pytest.fixture
 def setup_database(app):
     """Popula o banco de testes com usuários iniciais para os testes de duplicação."""
@@ -59,20 +58,17 @@ def setup_database(app):
         db.drop_all()  # Limpa o banco após os testes
 
 
-# 🛠 **Fixture para simular o cliente Flask**
 @pytest.fixture
 def client(app):
     with app.test_client() as client:
         yield client
 
 
-# 🏗 **Fixture para armazenar os dados do usuário durante os testes**
 @pytest.fixture
 def contexto():
     return {}
 
 
-# 🔹 **Testes que NÃO precisam do banco populado**
 @scenario("../features/CadastroServico.feature", "Sucesso no cadastro de usuário")
 def testeSucessoUsuario():
     pass
@@ -103,20 +99,17 @@ def testeErroCpfInvalido():
 def testeErroSiapeRegistrado():
     pass
 
-# 🔹 **Testes que PRECISAM do banco populado antes**
 @pytest.mark.usefixtures("setup_database")
 @scenario("../features/CadastroServico.feature", "Fracasso no cadastro por duplicação de ID única")
 def testeErroCadastroDuplo():
     pass
 
 
-# 🏗 **Dado que o usuário deseja se cadastrar**
 @given("o usuário deseja se cadastrar")
 def usuarioInicioCadastro(contexto):
     contexto["dados_cadastro"] = {}
 
 
-# 🏗 **Quando ele preenche os dados**
 @when(parsers.parse('ele informa o nome "{nome}"'))
 def informarNome(contexto, nome):
     contexto["dados_cadastro"]["nome"] = nome
@@ -150,32 +143,18 @@ def senhaVazio(contexto):
     pass
 
 
-# 🏗 **Quando ele envia a requisição**
 @when(parsers.parse('ele envia uma requisição POST para "/api/cadastro"'))
 def enviarCadastro(client, contexto):
-    print("\n🔹 Dados enviados para a API:", contexto["dados_cadastro"])  # Debug
 
     resposta = client.post("/api/cadastro", json=contexto["dados_cadastro"])
     contexto["resposta"] = resposta
 
-    print("🔹 Status Code recebido:", resposta.status_code)  # Debug
-    print("🔹 Resposta JSON recebida:", resposta.get_json())  # Debug
-
-
-# 🏗 **Então ele deve receber a mensagem esperada**
 @then(parsers.parse('a resposta deve conter a mensagem "{mensagem}"'))
 def verificarMensagem(contexto, mensagem):
     resposta_json = contexto["resposta"].get_json()
     mensagem_real = resposta_json.get("message") or resposta_json.get("error")
-
-    print("\n✅ DEBUG: Mensagem esperada:", mensagem)  # Debug
-    print("✅ DEBUG: Mensagem recebida:", mensagem_real)  # Debug
-    print("✅ DEBUG: JSON completo da resposta:", resposta_json)  # Debug
-
     assert mensagem_real == mensagem, f"Esperado: {mensagem}, Recebido: {mensagem_real}"
 
-
-# 🏗 **E o status code deve ser adequado**
 @then("o status code deve ser 201")
 def verificarStatus201(contexto):
     assert contexto["resposta"].status_code == 201
