@@ -1,37 +1,78 @@
 from pytest_bdd import scenario, given, when, then, parsers
 import pytest
-import requests
 from flask import Flask
-from unittest.mock import MagicMock
-from ..rotas.cadastro import cadastro_bp
 import re
+from ..rotas.cadastro import cadastro_bp
+from ..modelo.extensao import db
+from ..modelo.usuario import Usuario
+from werkzeug.security import generate_password_hash
 
-def validarEmail(email):
-    padrao_email = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-    if not re.match(padrao_email, email):
-        return False
-    return True
 
-# Criando um app Flask para testar a API
+# 🏗 Criando um app Flask para testar a API
 @pytest.fixture
 def app():
     aplicacao = Flask(__name__)
     aplicacao.register_blueprint(cadastro_bp)
     aplicacao.config["TESTING"] = True
-    return aplicacao
+    aplicacao.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'  # Banco de testes
+    aplicacao.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Fixture para simular o cliente de testes
+    with aplicacao.app_context():
+        db.init_app(aplicacao)  # Inicializa a extensão do banco
+        db.create_all()  # 🛑 Garante que as tabelas existem antes dos testes
+        yield aplicacao  # Executa os testes
+        db.session.remove()
+        db.drop_all()
+
+
+# 🛑 **Setup do banco de testes com dados iniciais**
+@pytest.fixture
+def setup_database(app):
+    """Popula o banco de testes com usuários iniciais para os testes de duplicação."""
+    with app.app_context():
+        db.create_all()  # Certifica que as tabelas existem
+
+        usuario1 = Usuario(
+            nome="Demosténes",
+            cpf="126.456.789-00",
+            email="demostenes@example.com",
+            professor="N",
+            siape=None,
+            senha=generate_password_hash("SecurePassword123")
+        )
+
+        usuario2 = Usuario(
+            nome="Vanessa",
+            cpf="321.879.789-33",
+            email="vanessa@example.com",
+            professor="S",
+            siape="101010",
+            senha=generate_password_hash("12345678")
+        )
+
+        db.session.add_all([usuario1, usuario2])
+        db.session.commit()  # Confirma os cadastros no banco
+
+        yield  # Libera para os testes rodarem
+
+        db.session.remove()
+        db.drop_all()  # Limpa o banco após os testes
+
+
+# 🛠 **Fixture para simular o cliente Flask**
 @pytest.fixture
 def client(app):
     with app.test_client() as client:
         yield client
 
+
+# 🏗 **Fixture para armazenar os dados do usuário durante os testes**
 @pytest.fixture
 def contexto():
-    """Armazena os dados do usuário durante os testes"""
     return {}
 
-# Cenários de Teste
+
+# 🔹 **Testes que NÃO precisam do banco populado**
 @scenario("../features/CadastroServico.feature", "Sucesso no cadastro de usuário")
 def testeSucessoUsuario():
     pass
@@ -42,10 +83,6 @@ def testeSucessoProfessor():
 
 @scenario("../features/CadastroServico.feature", "Fracasso no cadastro por campos obrigatórios não preenchidos")
 def testeErroObrigatorio():
-    pass
-
-@scenario("../features/CadastroServico.feature", "Fracasso no cadastro por duplicação de ID única")
-def testeErroCadastroDuplo():
     pass
 
 @scenario("../features/CadastroServico.feature", "Fracasso no cadastro por senhas que não coincidem")
@@ -60,27 +97,37 @@ def testeErroEmailInvalido():
 def testeErroCpfInvalido():
     pass
 
-@scenario("../features/CadastroServico.feature", "Fracasso no cadastro por SIAP já registrado")
+
+@pytest.mark.usefixtures("setup_database")
+@scenario("../features/CadastroServico.feature", "Fracasso no cadastro por siape já registrado")
 def testeErroSiapeRegistrado():
     pass
 
-# GIVEN - Configuração inicial
+# 🔹 **Testes que PRECISAM do banco populado antes**
+@pytest.mark.usefixtures("setup_database")
+@scenario("../features/CadastroServico.feature", "Fracasso no cadastro por duplicação de ID única")
+def testeErroCadastroDuplo():
+    pass
+
+
+# 🏗 **Dado que o usuário deseja se cadastrar**
 @given("o usuário deseja se cadastrar")
 def usuarioInicioCadastro(contexto):
-        contexto["dados_cadastro"] = {}
+    contexto["dados_cadastro"] = {}
 
-# WHEN - Preenchimento de campos
+
+# 🏗 **Quando ele preenche os dados**
 @when(parsers.parse('ele informa o nome "{nome}"'))
 def informarNome(contexto, nome):
-    contexto["dados_cadastro"]["Nome"] = nome
+    contexto["dados_cadastro"]["nome"] = nome
 
 @when(parsers.parse('ele informa o CPF "{cpf}"'))
 def informarCpf(contexto, cpf):
-    contexto["dados_cadastro"]["CPF"] = cpf
+    contexto["dados_cadastro"]["cpf"] = cpf
 
 @when(parsers.parse('ele informa o email "{email}"'))
 def informarEmail(contexto, email):
-    contexto["dados_cadastro"]["Email"] = email
+    contexto["dados_cadastro"]["email"] = email
 
 @when(parsers.parse('ele informa se é professor "{professor}"'))
 def informarProfessor(contexto, professor):
@@ -88,63 +135,47 @@ def informarProfessor(contexto, professor):
 
 @when(parsers.parse('ele informa o SIAPE "{siape}"'))
 def informarSiape(contexto, siape):
-    contexto["dados_cadastro"]["SIAPE"] = siape
+    contexto["dados_cadastro"]["siape"] = siape
 
 @when(parsers.parse('ele informa a senha "{senha}"'))
 def informarSenha(contexto, senha):
-    contexto["dados_cadastro"]["Senha"] = senha
+    contexto["dados_cadastro"]["senha"] = senha
 
 @when(parsers.parse('ele informa a confirmação da senha "{confirmar_senha}"'))
 def confirmarSenha(contexto, confirmar_senha):
-    contexto["dados_cadastro"]["Confirmar_Senha"] = confirmar_senha
-    
-@when(parsers.parse('ele deixa o campo "Confirmar Senha" com ""'))
-def SenhaVazio(contexto):
-    contexto["dados_cadastro"]["Confirmar_Senha"] = ""
+    contexto["dados_cadastro"]["confirmarSenha"] = confirmar_senha
 
-# WHEN - Preenchimento de campos
+@when(parsers.parse('ele deixa o campo "Confirmar Senha" com ""'))
+def senhaVazio(contexto):
+    pass
+
+
+# 🏗 **Quando ele envia a requisição**
 @when(parsers.parse('ele envia uma requisição POST para "/api/cadastro"'))
 def enviarCadastro(client, contexto):
-    """Realiza uma requisição POST para a API de cadastro"""
+    print("\n🔹 Dados enviados para a API:", contexto["dados_cadastro"])  # Debug
 
-    mockResposta = MagicMock()
+    resposta = client.post("/api/cadastro", json=contexto["dados_cadastro"])
+    contexto["resposta"] = resposta
 
-    # Simulação de diferentes respostas da API
-    if "Confirmar_Senha" not in contexto["dados_cadastro"] or contexto["dados_cadastro"]["Confirmar_Senha"] == "":
-        mockResposta.get_json.return_value = {"error": "Confirmar Senha é obrigatório"}
-        mockResposta.status_code = 400
-    elif contexto["dados_cadastro"]["Senha"] != contexto["dados_cadastro"]["Confirmar_Senha"]:
-        
-        mockResposta.get_json.return_value = {"error": "As senhas não coincidem."}
-        mockResposta.status_code = 400
-    elif contexto["dados_cadastro"]["CPF"] == "123.456.789-00" or contexto["dados_cadastro"]["Email"] == "carlos.mendes@example.com":
-        mockResposta.get_json.return_value = {"error": "Erro: email/cpf já está registrado."}
-        mockResposta.status_code = 409
-    elif not validarEmail(contexto["dados_cadastro"]["Email"]):
-        print(contexto["dados_cadastro"]["Email"])
-        mockResposta.get_json.return_value = {"error": "Formato de email inválido. Use um email válido, como exemplo@dominio.com."}
-        mockResposta.status_code = 400
-    elif not contexto["dados_cadastro"]["CPF"].replace(".", "").replace("-", "").isdigit() or len(contexto["dados_cadastro"]["CPF"]) != 14:
-        print(contexto["dados_cadastro"]["CPF"])
-        mockResposta.get_json.return_value = {"error": "CPF inválido. Digite um CPF válido no formato XXX.XXX.XXX-XX."}
-        mockResposta.status_code = 400
-    elif contexto["dados_cadastro"]["professor"] == "S" and contexto["dados_cadastro"]["SIAPE"] == "123456":
-        mockResposta.get_json.return_value = {"error": "Erro: siape já está registrado."}
-        mockResposta.status_code = 400
-    else:
-        print(contexto["dados_cadastro"])
-        mockResposta.get_json.return_value = {"message": "Cadastro criado com sucesso!"}
-        mockResposta.status_code = 201
-
-    contexto["resposta"] = mockResposta
+    print("🔹 Status Code recebido:", resposta.status_code)  # Debug
+    print("🔹 Resposta JSON recebida:", resposta.get_json())  # Debug
 
 
-# THEN - Validação dos resultados
+# 🏗 **Então ele deve receber a mensagem esperada**
 @then(parsers.parse('a resposta deve conter a mensagem "{mensagem}"'))
 def verificarMensagem(contexto, mensagem):
     resposta_json = contexto["resposta"].get_json()
-    assert resposta_json.get("message") == mensagem or resposta_json.get("error") == mensagem, f"Esperado: {mensagem}, Recebido: {resposta_json}"
+    mensagem_real = resposta_json.get("message") or resposta_json.get("error")
 
+    print("\n✅ DEBUG: Mensagem esperada:", mensagem)  # Debug
+    print("✅ DEBUG: Mensagem recebida:", mensagem_real)  # Debug
+    print("✅ DEBUG: JSON completo da resposta:", resposta_json)  # Debug
+
+    assert mensagem_real == mensagem, f"Esperado: {mensagem}, Recebido: {mensagem_real}"
+
+
+# 🏗 **E o status code deve ser adequado**
 @then("o status code deve ser 201")
 def verificarStatus201(contexto):
     assert contexto["resposta"].status_code == 201

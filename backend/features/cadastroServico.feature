@@ -34,14 +34,14 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa a senha "Password123"
     And ele deixa o campo "Confirmar Senha" com ""
     And ele envia uma requisição POST para "/api/cadastro"
-    Then a resposta deve conter a mensagem "Confirmar Senha é obrigatório"
+    Then a resposta deve conter a mensagem "Confirmar Senha é obrigatório."
     And o status code deve ser 400
 
   Scenario: Fracasso no cadastro por duplicação de ID única
     Given o usuário deseja se cadastrar
     When ele informa o nome "Carlos Mendes"
-    And ele informa o CPF "123.456.789-00"
-    And ele informa o email "carlos.mendes@example.com"
+    And ele informa o CPF "126.456.789-00"
+    And ele informa o email "demostenes@example.com"
     And ele informa se é professor "S"
     And ele informa o SIAPE "010101"
     And ele informa a senha "Password456"
@@ -86,13 +86,13 @@ Feature: Serviço de Cadastro de Usuários
     Then a resposta deve conter a mensagem "CPF inválido. Digite um CPF válido no formato XXX.XXX.XXX-XX."
     And o status code deve ser 400
   
-  Scenario: Fracasso no cadastro por SIAP já registrado
+  Scenario: Fracasso no cadastro por siape já registrado
     Given o usuário deseja se cadastrar
     When ele informa o nome "Max"
     And ele informa o CPF "987.654.321-00"
     And ele informa o email "max@gmail.com"
     And ele informa se é professor "S"
-    And ele informa o SIAPE "123456"
+    And ele informa o SIAPE "101010"
     And ele informa a senha "Senha123"
     And ele informa a confirmação da senha "Senha123"
     And ele envia uma requisição POST para "/api/cadastro"
