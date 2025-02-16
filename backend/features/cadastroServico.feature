@@ -98,4 +98,3 @@ Feature: Serviço de Cadastro de Usuários
     And ele envia uma requisição POST para "/api/cadastro"
     Then a resposta deve conter a mensagem "Erro: siape já está registrado."
     And o status code deve ser "409"
-

@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 from backend.modelo.usuario import Usuario
 from backend.modelo.extensao import db
 import re
-from sqlalchemy import exists  # Importação adicional para melhor verificação
+from sqlalchemy import exists  
 
 cadastro_bp = Blueprint("cadastro", __name__)
 
@@ -29,7 +29,7 @@ def cadastro():
     senha = data.get("senha", "").strip()
     confirmar_senha = data.get("confirmarSenha", "").strip()
 
-    campos_obrigatorios = {
+    camposObrigatorios = {
         "nome": nome,
         "cpf": cpf,
         "email": email,
@@ -37,9 +37,9 @@ def cadastro():
         "Confirmar Senha": confirmar_senha
     }
     if professor == "S":
-        campos_obrigatorios["siape"] = siape
+        camposObrigatorios["siape"] = siape
 
-    for campo, valor in campos_obrigatorios.items():
+    for campo, valor in camposObrigatorios.items():
         if not valor:
             return jsonify({"error": f"{campo} é obrigatório."}), 400
 
@@ -69,11 +69,11 @@ def cadastro():
 
     senhaHash = generate_password_hash(senha)
 
-    novo_usuario = Usuario(
+    novoUsuario = Usuario(
         nome=nome, cpf=cpf, email=email, professor=professor, siape=siape, senha=senhaHash
     )
 
-    db.session.add(novo_usuario)
+    db.session.add(novoUsuario)
     db.session.commit()
 
     return jsonify({"message": "Cadastro criado com sucesso!"}), 201
