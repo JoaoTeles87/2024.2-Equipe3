@@ -62,6 +62,39 @@ No powerShell mude para o diretório backend
 ```
 cd backend
 ```
+Crie arquivos __init__.py em todos diretórios dentro de backend, inclusive nele.
+
+backend/
+   __init__.py
+   main.py
+   testes/
+      __init__.py
+      teste_exemplo.py
+
+MacOS
+Dentro da pasta backend no terminal, execute os seguintes comandos:
+
+```
+export PYTHONPATH=$(pwd)/backend
+export FLASK_APP=main
+flask run
+```
+
+Dentro da pasta backend/testes, execute:
+
+```
+export PYTHONPATH=$(pwd)/backend
+pytest
+Windows (Powershell)
+```
+Dentro da pasta backend no PowerShell, execute os seguintes comandos:
+
+```
+$env:PYTHONPATH = "$(pwd)/backend"
+$env:FLASK_APP = "main"
+flask run
+```
+
 
 Crie a venv
 ```
