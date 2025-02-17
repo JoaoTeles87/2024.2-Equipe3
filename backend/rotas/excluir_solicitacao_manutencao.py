@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from modelo.extensao import db
-from modelo.solicitacaomanutencao import SolicitacaoManutencao
-from modelo.solicitacaorecursos import SolicitacaoRecursos
+from backend.modelo.extensao import db
+from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
+from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
 
 excluir_manutencao_bp = Blueprint("excluirmanutencao", __name__)
 

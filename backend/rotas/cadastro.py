@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash
-from modelo.usuario import Usuario
-from modelo.extensao import db
+from backend.modelo.usuario import Usuario
+from backend.modelo.extensao import db
 
 cadastro_bp = Blueprint("cadastro", __name__)
 

@@ -1,4 +1,4 @@
-from modelo.extensao import db
+from backend.modelo.extensao import db
 
 # Modelo da Tabela de Usuários
 class Usuario(db.Model):

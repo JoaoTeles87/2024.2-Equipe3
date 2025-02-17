@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_cors import CORS
-from blueprints import registrarBlueprints
-from modelo.extensao import db
-from config import Config
 from flask_jwt_extended import JWTManager
+from backend.blueprints import registrarBlueprints
+from backend.modelo.extensao import db
+from backend.config import Config
 
 
 app = Flask(__name__)

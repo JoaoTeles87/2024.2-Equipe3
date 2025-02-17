@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from modelo.extensao import db
-from modelo.solicitacaomanutencao import SolicitacaoManutencao
-from modelo.solicitacaorecursos import SolicitacaoRecursos
+from backend.modelo.extensao import db
+from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
+from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
 
 editar_manutencao_bp = Blueprint("editarmanutencao", __name__)
 
@@ -13,8 +13,13 @@ def editar_solicitacao_manutencao(id):
         # Verifica se a nova descrição é vazia ou apenas espaços em branco
     nova_descricao = dados.get("descricao", solicitacao.descricao)
     if not nova_descricao.strip():
-        return jsonify({"error": "A descrição da manutenção não pode ser vazia"}), 400
+        return jsonify({"erro": "A descrição da manutenção não pode ser vazia"}), 400
 
     solicitacao.descricao = nova_descricao
     db.session.commit()
-    return jsonify({"message": "Solicitação de manutenção atualizada com sucesso"}), 200
+    return jsonify({
+    "mensagem": "Solicitação de manutenção atualizada com sucesso",
+    "id": solicitacao.id,
+    #"reserva_id": solicitacao.reserva_id,
+    "descricao": solicitacao.descricao
+}), 200

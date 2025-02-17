@@ -1,4 +1,4 @@
-from modelo.extensao import db
+from backend.modelo.extensao import db
 import datetime
     
 class SolicitacaoManutencao(db.Model):

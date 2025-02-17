@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
-from modelo.extensao import db
-from modelo.solicitacaomanutencao import SolicitacaoManutencao
-from modelo.solicitacaorecursos import SolicitacaoRecursos
+from backend.modelo.extensao import db
+from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
+from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
 
 criar_recursos_bp = Blueprint("criarrecursos", __name__)
 
@@ -14,7 +14,7 @@ def criar_solicitacao_recursos():
 
     # Validação: se recursos estiver vazio, itens_nao_listados deve estar preenchido
     if not recursos and not itens_nao_listados:
-        return jsonify({"error": "Você deve selecionar um recurso ou especificar itens não listados."}), 400
+        return jsonify({"erro": "Você deve selecionar um recurso ou especificar itens não listados."}), 400
 
     # Verifica se 'recursos' é None ou uma string vazia
     #if not dados.get("recursos"):  
@@ -35,4 +35,4 @@ def criar_solicitacao_recursos():
     )
     db.session.add(solicitacao)
     db.session.commit()
-    return jsonify({"id": solicitacao.id, "message": "Parabéns, sua solicitação de recursos foi criada!"}), 201
+    return jsonify({"id": solicitacao.id, "mensagem": "Parabéns, sua solicitação de recursos foi criada!"}), 201
