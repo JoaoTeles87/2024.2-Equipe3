@@ -8,7 +8,6 @@ usuarios_bp = Blueprint('usuarios', __name__)
 def get_usuarios():
     usuarios = Usuario.query.all()
 
-    # ✅ Convert users into JSON format
     usuarios_json = [
         {
             "id": usuario.id,
@@ -28,9 +27,9 @@ def deletar_usuario(usuario_id):
     usuario = Usuario.query.get(usuario_id)
 
     if not usuario:
-        return jsonify({"error": "Usuário não encontrado"}), 404
+        return jsonify({"erro": "Usuário não encontrado"}), 404
 
     db.session.delete(usuario)
     db.session.commit()
 
-    return jsonify({"message": "Usuário deletado com sucesso"}), 200
+    return jsonify({"menssagem": "Usuário deletado com sucesso"}), 200

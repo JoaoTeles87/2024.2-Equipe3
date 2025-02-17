@@ -1,3 +1,5 @@
+import copy
+
 EQUIPAMENTOS = [
     "Ar-condicionado", "Cabo P2", "Cabo HDMI", "Cabo VGA", "Microfone",
     "Extensão", "Mesa de som", "Passador", "Televisor", "Projetor",
@@ -87,3 +89,9 @@ mock_salas = [
         "review_count": 7
     }
 ]
+
+MOCK_SALAS_COPY = copy.copy(mock_salas)
+
+def salas_reset():
+    mock_salas.clear()
+    mock_salas.extend(copy.copy(MOCK_SALAS_COPY))

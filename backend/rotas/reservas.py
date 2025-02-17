@@ -20,7 +20,7 @@ def get_reservas_professor(professor_id):
     ]
 
     if not user_reservas:
-        return jsonify({'message': 'Nenhuma reserva encontrada'}), 404
+        return jsonify({'mensagem': 'Nenhuma reserva encontrada'}), 404
 
     return jsonify(user_reservas), 200
 
@@ -38,15 +38,15 @@ def create_reserva(professor_id):
     """
 
     dados = request.get_json()
-    sala_id = dados['sala_id']
-    data = dados['data']
-    start_time = dados['start_time']
-    end_time = dados['end_time']
+    sala_id = dados.get('sala_id')
+    data = dados.get('data')
+    start_time = dados.get('start_time')
+    end_time = dados.get('end_time')
     status = "ativa"
 
     # Checa se o body inclui o que precisa
     if not sala_id or not data or not start_time or not end_time:
-        return jsonify({"error": "Campos obrigatórios ausentes"}), 400
+        return jsonify({"erro": "Campos obrigatórios ausentes"}), 400
 
     parsed_start_time = parse_time(start_time)
     parsed_end_time = parse_time(end_time)
@@ -58,7 +58,7 @@ def create_reserva(professor_id):
 
             # Sobreposição de horários
             if not (reserva_end <= parsed_start_time or reserva_start >= parsed_end_time):
-                return jsonify({'erro': 'Sala já reservada para esse horário'})
+                return jsonify({'erro': 'Sala já reservada para esse horário'}), 409
 
     for reserva in mock_reservas:
         if reserva['professor_id'] == professor_id and reserva['data'] == data and reserva['status'] == 'ativa':
@@ -66,7 +66,7 @@ def create_reserva(professor_id):
             professor_reserva_end = parse_time(reserva["end_time"])
 
             if not (professor_reserva_end <= parsed_start_time or professor_reserva_start >= parsed_end_time):
-                return jsonify({"error": "Professor já possui uma reserva nesse horário"}), 409
+                return jsonify({"erro": "Professor já possui uma reserva nesse horário"}), 409
 
     new_reserva = {
         "id": len(mock_reservas) + 1,
@@ -79,7 +79,7 @@ def create_reserva(professor_id):
     }
     mock_reservas.append(new_reserva)
 
-    return jsonify({"message": "Reserva criada com sucesso!", "reservation": new_reserva}), 201
+    return jsonify({"mensagem": "Reserva criada com sucesso!", "reservation": new_reserva}), 201
 
 
 # Cancela reserva
@@ -88,6 +88,6 @@ def cancel_reserva(reserva_id):
     for reserva in mock_reservas:
         if reserva['id'] == reserva_id:
             reserva['status'] = 'cancelada'
-            return jsonify({"message": "Reserva cancelada!", "reservation": reserva}), 200
+            return jsonify({"mensagem": "Reserva cancelada!", "reservation": reserva}), 200
 
-    return jsonify({"error": "Reserva não encontrada."}), 404
+    return jsonify({"erro": "Reserva não encontrada."}), 404

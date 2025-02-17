@@ -1,4 +1,6 @@
 # TODO: ver quais dados ainda precisa colocar aqui
+import copy
+
 mock_reservas = [
     {
         "id": 1,
@@ -40,3 +42,9 @@ mock_reservas = [
         "status": "ativa"
     }
 ]
+
+MOCK_RESERVAS_COPY = copy.copy(mock_reservas)
+
+def reservas_reset():
+    mock_reservas.clear()
+    mock_reservas.extend(copy.copy(MOCK_RESERVAS_COPY))
