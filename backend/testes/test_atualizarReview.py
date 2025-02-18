@@ -4,22 +4,10 @@ import sys
 import os
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from backend.modelo.__init__ import create_app  
 from backend.modelo.extensao import db
 from backend.modelo.reviewSala import ReviewSala
 from flask.testing import FlaskClient
 from datetime import datetime
-
-
-@pytest.fixture
-def app():
-    from backend.modelo import create_app
-    app = create_app()
-    with app.app_context():
-        db.create_all()  
-    yield app
-    with app.app_context():
-        db.drop_all() 
 
 
 @pytest.fixture

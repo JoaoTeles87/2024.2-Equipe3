@@ -2,7 +2,7 @@ import json
 import requests
 from pytest_bdd import scenario, when, then, given, parsers
 
-from common_step_definitions import *
+from backend.testes.common_step_definitions import *
 
 
 BASE_URL = 'http://127.0.0.1:5000'

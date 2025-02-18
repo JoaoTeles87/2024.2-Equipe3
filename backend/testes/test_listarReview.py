@@ -9,20 +9,8 @@ from pytest_bdd import scenarios, given, when, then
 
 scenarios('features/listarReview.feature')
 
-from backend.modelo.__init__ import create_app
 from backend.modelo.extensao import db
 from backend.modelo.reviewSala import ReviewSala
-
-@pytest.fixture
-def app():
-    app = create_app()
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    app.config['TESTING'] = True
-    with app.app_context():
-        db.create_all()
-    yield app
-    with app.app_context():
-        db.drop_all()
 
 @pytest.fixture
 def client(app):

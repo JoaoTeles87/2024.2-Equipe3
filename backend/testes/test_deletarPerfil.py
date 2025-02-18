@@ -11,7 +11,6 @@ import random
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 # Importações do projeto
-from modelo import create_app
 from modelo.extensao import db
 from modelo.reserva import Reserva
 from modelo.usuario import Usuario
@@ -27,21 +26,6 @@ def setup_teardown():
     db.session.query(Sala).delete()
     db.session.query(Usuario).delete()
     db.session.commit()
-
-# Fixture para configurar a aplicação e o banco de dados
-@pytest.fixture
-def app():
-    app = create_app()
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Banco em memória
-    app.config['TESTING'] = True
-
-    with app.app_context():
-        db.create_all()
-
-    yield app
-
-    with app.app_context():
-        setup_teardown()
 
 # Fixture para criar um cliente de teste
 @pytest.fixture

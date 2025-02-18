@@ -6,7 +6,6 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 import pytest
 import json
 from datetime import datetime
-from backend.modelo.__init__ import create_app 
 from backend.modelo.extensao import db
 from backend.modelo.reviewSala import ReviewSala
 

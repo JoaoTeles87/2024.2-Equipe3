@@ -9,7 +9,6 @@ from pytest_bdd import scenarios, given, when, then
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 # Importações do projeto
-from modelo import create_app
 from modelo.extensao import db
 from modelo.reserva import Reserva
 from modelo.usuario import Usuario
@@ -17,13 +16,6 @@ from modelo.sala import Sala
 
 # Carrega os cenários do arquivo .feature
 scenarios('features/deletarReserva.feature')
-
-# Fixture para configurar a aplicação
-@pytest.fixture
-def app():
-    app = create_app()
-    app.config['TESTING'] = True
-    yield app
 
 # Fixture para criar um cliente de teste
 @pytest.fixture

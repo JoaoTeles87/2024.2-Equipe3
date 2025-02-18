@@ -10,7 +10,6 @@ import random
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 # Importações do projeto
-from modelo import create_app
 from modelo.extensao import db
 from modelo.usuario import Usuario
 
@@ -21,34 +20,6 @@ def gerar_email_unico():
 # Cenários definidos no arquivo .feature
 scenarios('features/atualizarPerfil.feature')
 
-@pytest.fixture
-def app():
-    # Inicializa o aplicativo e configurações do banco de dados
-    app = create_app()
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'  # Banco em memória
-    app.config['TESTING'] = True
-
-    with app.app_context():  
-        db.create_all()
-
-        # Gerar um e-mail único para cada execução de teste
-        email_unico = gerar_email_unico()
-
-        # Criação de um usuário de teste com e-mail único
-        usuario = Usuario(
-            email=email_unico,
-            nome="João Teste",
-            cpf="123.456.789-00",
-            senha="senha123",
-            professor="N"
-        )
-        db.session.add(usuario)
-        db.session.commit()
-
-    yield app
-
-    with app.app_context():  
-        db.drop_all()  # Limpa o banco após os testes
 
 @pytest.fixture
 def client(app):
