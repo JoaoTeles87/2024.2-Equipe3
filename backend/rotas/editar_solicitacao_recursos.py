@@ -2,12 +2,13 @@ from flask import Blueprint, request, jsonify
 from backend.modelo.extensao import db
 from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
 from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
+import flask
 
 editar_recursos_bp = Blueprint("editarrecursos", __name__)
 
 @editar_recursos_bp.route("/solicitacoes/recursos/<int:id>", methods=["PUT"])
 def editar_solicitacao_recursos(id):
-    solicitacao = SolicitacaoRecursos.query.get_or_404(id)
+    solicitacao = db.session.get(SolicitacaoRecursos, id) or flask.abort(404)
     dados = request.json
 
      # Verifica se ambos os campos estão vazios
