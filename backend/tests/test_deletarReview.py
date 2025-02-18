@@ -14,7 +14,6 @@ from backend.modelo.reviewSala import ReviewSala
 def app():
     app = create_app()
     with app.app_context():
-        from modelo.reviewSala import ReviewSala  
         db.create_all()  
     yield app
     with app.app_context():
