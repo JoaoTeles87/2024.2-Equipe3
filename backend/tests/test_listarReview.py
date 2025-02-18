@@ -19,7 +19,6 @@ def app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     app.config['TESTING'] = True
     with app.app_context():
-        from modelo.reviewSala import ReviewSala  
         db.create_all()
     yield app
     with app.app_context():
