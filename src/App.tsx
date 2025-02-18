@@ -1,22 +1,27 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/home/pages/CreateTest";
-import ListTests from "./app/home/pages/ListTests";
+import { useEffect, useState } from "react";
 
-const router = createBrowserRouter([
-  {
-    path: "*",
-    Component: CreateTest,
-  },
-  {
-    path: "/create-test",
-    Component: CreateTest,
-  },
-  {
-    path: "/tests",
-    Component: ListTests,
-  },
-]);
+function App() {
+    const [message, setMessage] = useState("");
+    const [error, setError] = useState("");
 
-export default function App() {
-  return <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />;
+    useEffect(() => {
+        fetch(import.meta.env.VITE_API_URL)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => setMessage(data.message))
+            .catch((error) => setError(error.message));
+    }, []);
+
+    return (
+        <div>
+            <h1>Testando API</h1>
+            {error ? <p style={{ color: "red" }}>{error}</p> : <p>{message}</p>}
+        </div>
+    );
 }
+
+export default App;
