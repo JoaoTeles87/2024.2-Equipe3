@@ -14,7 +14,8 @@ from backend.rotas.usuario import usuarios_bp
 # Registra os Blueprints
 def registrarBlueprints(app):
     blueprints = [
-       login_bp, cadastro_bp, logout_bp, criar_manutencao_bp, criar_recursos_bp, excluir_manutencao_bp, excluir_recursos_bp, editar_recursos_bp, editar_manutencao_bp
+       login_bp, cadastro_bp, logout_bp, criar_manutencao_bp, criar_recursos_bp, excluir_manutencao_bp, excluir_recursos_bp, editar_recursos_bp, editar_manutencao_bp, 
+       salas_bp, usuarios_bp, reservas_bp
     ]
     for blueprint in blueprints:
         app.register_blueprint(blueprint)

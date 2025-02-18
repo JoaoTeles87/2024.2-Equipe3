@@ -9,7 +9,6 @@ app.config.from_object(Config)
 CORS(app)  # Permite conexão com o frontend
 db.init_app(app)
 registrarBlueprints(app)    
-
 with app.app_context():
     db.drop_all()
     db.create_all()
