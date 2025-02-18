@@ -9,9 +9,9 @@ from pytest_bdd import scenarios, given, when, then
 
 scenarios('features/listarReview.feature')
 
-from modelo import create_app
-from modelo.extensao import db
-from modelo.reviewSala import ReviewSala
+from backend.modelo.__init__ import create_app
+from backend.modelo.extensao import db
+from backend.modelo.reviewSala import ReviewSala
 
 @pytest.fixture
 def app():

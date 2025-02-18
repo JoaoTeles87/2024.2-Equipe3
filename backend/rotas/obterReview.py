@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
-from modelo.reviewSala import ReviewSala
-from modelo.extensao import db
+from backend.modelo.reviewSala import ReviewSala
+from backend.modelo.extensao import db
 
 obter_review_bp = Blueprint("obter_review", __name__)
 

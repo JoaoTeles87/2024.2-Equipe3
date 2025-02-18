@@ -1,25 +1,26 @@
 from flask import Flask
-from .extensao import db
-from .reviewSala import ReviewSala
-from .usuario import Usuario
+from backend.modelo.extensao import db
+from backend.modelo.reviewSala import ReviewSala
+from backend.modelo.usuario import Usuario
+
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  
 
     # Registrando blueprints ou rotas aqui
-    from rotas.atualizarReview import atualizar_review_bp
+    from backend.rotas.atualizarReview import atualizar_review_bp
     app.register_blueprint(atualizar_review_bp)
 
-    from rotas.deletarReview import deletar_review_bp
+    from backend.rotas.deletarReview import deletar_review_bp
     app.register_blueprint(deletar_review_bp)
 
-    from rotas.obterReview import obter_review_bp
+    from backend.rotas.obterReview import obter_review_bp
     app.register_blueprint(obter_review_bp)
 
-    from rotas.listarReview import listar_reviews_bp
+    from backend.rotas.listarReview import listar_reviews_bp
     app.register_blueprint(listar_reviews_bp)
 
     @app.errorhandler(404)

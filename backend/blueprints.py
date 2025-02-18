@@ -1,12 +1,12 @@
-from rotas.login import login_bp
-from rotas.cadastro import cadastro_bp
-from rotas.logout import logout_bp
-from rotas.testecookies import protegida_bp
-from rotas.criarReview import criar_review_bp
-from rotas.listarReview import listar_reviews_bp
-from rotas.obterReview import obter_review_bp
-from rotas.atualizarReview import atualizar_review_bp
-from rotas.deletarReview import deletar_review_bp
+from backend.rotas.login import login_bp
+from backend.rotas.cadastro import cadastro_bp
+from backend.rotas.logout import logout_bp
+from backend.rotas.testecookies import protegida_bp
+from backend.rotas.criarReview import criar_review_bp
+from backend.rotas.listarReview import listar_reviews_bp
+from backend.rotas.obterReview import obter_review_bp
+from backend.rotas.atualizarReview import atualizar_review_bp
+from backend.rotas.deletarReview import deletar_review_bp
 
 # Registra os Blueprints
 def registrarBlueprints(app):

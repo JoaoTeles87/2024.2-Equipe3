@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from modelo.reviewSala import ReviewSala
+from backend.modelo.reviewSala import ReviewSala
 
 listar_reviews_bp = Blueprint("listar_reviews", __name__)
 
