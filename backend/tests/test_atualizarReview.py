@@ -13,7 +13,7 @@ from datetime import datetime
 
 @pytest.fixture
 def app():
-    from modelo import create_app
+    from backend.modelo import create_app
     app = create_app()
     with app.app_context():
         db.create_all()  
