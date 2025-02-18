@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify
 usuario = {
     "email": "teste@email.com",
     "nome": "Usuário Teste",
-    "id": 1  # Simulando ID do usuário
+    "id": 1 
 }
 
 # Simulação de reservas ativas (dados estáticos)

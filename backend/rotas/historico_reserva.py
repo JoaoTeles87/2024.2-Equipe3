@@ -10,10 +10,9 @@ usuario = {
 # Lista de reservas, com algumas ativas e outras inativas
 reservas = [
     {"id": 1, "usuario_id": 1, "sala": {"nome": "Sala A"}, "data": "2025-01-15", "horario_inicio": "10:00", "horario_fim": "12:00", "ativa": True},
-    {"id": 2, "usuario_id": 1, "sala": {"nome": "Sala B"}, "data": "2025-01-16", "horario_inicio": "14:00", "horario_fim": "16:00", "ativa": True}
+    {"id": 2, "usuario_id": 1, "sala": {"nome": "Sala B"}, "data": "2025-01-16", "horario_inicio": "14:00", "horario_fim": "16:00", "ativa": False}
 ]
 
-# Blueprint para as rotas do histórico de reservas
 historico_reservas_bp = Blueprint("historico_reservas", __name__)
 
 @historico_reservas_bp.route("/api/reservas/historico", methods=["POST"])

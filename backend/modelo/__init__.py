@@ -27,6 +27,6 @@ def create_app():
     
     @app.errorhandler(404)
     def not_found_error(error):
-        return jsonify({"error": "Avaliação não encontrada para o ID fornecido."}), 404
+        return jsonify({"error": "Recurso não encontrado."}), 404
     
     return app

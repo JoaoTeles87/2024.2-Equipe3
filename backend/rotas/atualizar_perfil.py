@@ -1,10 +1,7 @@
-from flask import Flask, Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request
+import re
 
-app = Flask(__name__)
-
-atualizar_perfil_bp = Blueprint("atualizar_perfil", __name__)
-
-# 🔹 Simulação de usuário (dados estáticos)
+# Simulação de dados do usuário autenticado
 usuario = {
     "email": "teste@email.com",
     "nome": "Usuário Teste",
@@ -14,12 +11,13 @@ usuario = {
     "siape": "987654"
 }
 
-# 🔹 Função para validar o CPF (exemplo básico)
-import re
+# Função para validar o CPF (exemplo básico)
 def validar_cpf(cpf):
     return bool(re.match(r"\d{3}\.\d{3}\.\d{3}-\d{2}", cpf))
 
-# 🔹 Rota para atualizar o perfil com tratamento de erro
+# Criando o Blueprint para a atualização do perfil
+atualizar_perfil_bp = Blueprint("atualizar_perfil", __name__)
+
 @atualizar_perfil_bp.route("/api/perfil", methods=["PUT"])
 def atualizar_perfil():
     data = request.get_json()
@@ -56,9 +54,3 @@ def atualizar_perfil():
             usuario["siape"] = siape
 
     return jsonify({"message": "Perfil atualizado com sucesso!", "usuario": usuario}), 200
-
-# 🔹 Registrar o Blueprint no app
-app.register_blueprint(atualizar_perfil_bp)
-
-if __name__ == "__main__":
-    app.run(debug=True)
