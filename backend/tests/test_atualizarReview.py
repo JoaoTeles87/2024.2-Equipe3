@@ -4,9 +4,9 @@ import sys
 import os
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from modelo.__init__ import create_app  
-from modelo.extensao import db
-from modelo.reviewSala import ReviewSala
+from backend.modelo.__init__ import create_app  
+from backend.modelo.extensao import db
+from backend.modelo.reviewSala import ReviewSala
 from flask.testing import FlaskClient
 from datetime import datetime
 

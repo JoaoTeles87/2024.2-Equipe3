@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, abort
-from modelo.extensao import db
-from modelo.reviewSala import ReviewSala
+from backend.modelo.extensao import db
+from backend.modelo.reviewSala import ReviewSala
 
 deletar_review_bp = Blueprint("deletar_review", __name__)
 

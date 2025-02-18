@@ -1,8 +1,9 @@
-from modelo.extensao import db
+from backend.modelo.extensao import db
 from datetime import datetime
 
 # Definindo a tabela de Salas
 class Sala(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     capacidade = db.Column(db.Integer)
@@ -12,6 +13,7 @@ class Sala(db.Model):
 
 # Definindo a tabela de Reservas
 class Reserva(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)  
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)  
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)  
@@ -31,6 +33,7 @@ class Reserva(db.Model):
 
 # Definindo a tabela de Avaliações de Salas (ReviewSala)
 class ReviewSala(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)  
     reserva_id = db.Column(db.Integer, db.ForeignKey('reserva.id'), nullable=False) 
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)  

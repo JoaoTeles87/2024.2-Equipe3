@@ -18,4 +18,3 @@ print(app.url_map)  # Isso vai mostrar todas as rotas registradas
     
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
