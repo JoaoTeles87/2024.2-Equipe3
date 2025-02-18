@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from modelo.reservas import mock_reservas
+from backend.modelo.reservas import mock_reservas
 from datetime import datetime
 
 reservas_bp = Blueprint('reservas', __name__)

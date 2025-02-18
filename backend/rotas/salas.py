@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from modelo.reservas import mock_reservas
-from modelo.salas import mock_salas, EQUIPAMENTOS
+from backend.modelo.reservas import mock_reservas
+from backend.modelo.salas import mock_salas, EQUIPAMENTOS
 from datetime import datetime
 
 salas_bp = Blueprint('salas', __name__)
