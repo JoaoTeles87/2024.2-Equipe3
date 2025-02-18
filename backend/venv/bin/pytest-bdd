@@ -1,4 +1,4 @@
-#!/Users/ggs/Dropbox/Mac/Documents/2024.2-Equipe3/backend/venv/bin/python3
+#!/Users/fernandapascoal/Desktop/2024.2-Equipe3/backend/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys
