@@ -20,4 +20,9 @@ def login():
     if not usuario or not check_password_hash(usuario.senha, senha):
         return jsonify({"error": "Usuário ou senha inválidos."}), 401
 
-    return jsonify({"redirect": "reserva"}), 200
+    return jsonify({
+        "usuario": {
+            "email": usuario.email
+        },
+        "redirect": "/api/reservas"
+    }), 200
