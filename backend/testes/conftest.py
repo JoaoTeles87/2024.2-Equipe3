@@ -6,9 +6,16 @@ from backend.rotas.editar_solicitacao_manutencao import editar_manutencao_bp
 from backend.rotas.editar_solicitacao_recursos import editar_recursos_bp
 from backend.rotas.excluir_solicitacao_manutencao import excluir_manutencao_bp
 from backend.rotas.excluir_solicitacao_recursos import excluir_recursos_bp
+from backend.rotas.criarReview import criar_review_bp
+from backend.rotas.atualizarReview import atualizar_review_bp
+from backend.rotas.deletarReview import deletar_review_bp
+from backend.rotas.obterReview import obter_review_bp
 from backend.modelo.extensao import db
 from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
 from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
+from backend.modelo.reviewSala import ReviewSala
+from backend.modelo.sala import Sala
+from backend.modelo.reserva import Reserva
 from ..rotas.cadastro import cadastro_bp
 from ..rotas.login import login_bp
 from ..modelo.extensao import db
@@ -26,8 +33,12 @@ def app():
     aplicacao.register_blueprint(excluir_recursos_bp)
     aplicacao.register_blueprint(cadastro_bp)
     aplicacao.register_blueprint(login_bp)
+    aplicacao.register_blueprint(criar_review_bp)
+    aplicacao.register_blueprint(atualizar_review_bp)
+    aplicacao.register_blueprint(deletar_review_bp)
+    aplicacao.register_blueprint(obter_review_bp)
     aplicacao.config["TESTING"] = True
-    aplicacao.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
+    aplicacao.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
     aplicacao.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     with aplicacao.app_context():
@@ -94,3 +105,18 @@ def setup_database(app):
 @pytest.fixture
 def contexto():
     return {}
+
+@pytest.fixture
+def criar_review(app):
+    with app.app_context():
+        review = ReviewSala(
+            reserva_id=1,
+            sala_id=2,
+            usuario_id=3,
+            nota=4,
+            comentario="Sala boa, mas com algumas falhas.",
+        )
+        db.session.add(review)
+        db.session.commit()
+        db.session.refresh(review)
+        return review
