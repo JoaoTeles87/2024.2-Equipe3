@@ -10,6 +10,7 @@ from backend.rotas.criarReview import criar_review_bp
 from backend.rotas.atualizarReview import atualizar_review_bp
 from backend.rotas.deletarReview import deletar_review_bp
 from backend.rotas.obterReview import obter_review_bp
+from backend.rotas.listarReview import listar_reviews_bp
 from backend.modelo.extensao import db
 from backend.modelo.solicitacaomanutencao import SolicitacaoManutencao
 from backend.modelo.solicitacaorecursos import SolicitacaoRecursos
@@ -37,6 +38,7 @@ def app():
     aplicacao.register_blueprint(atualizar_review_bp)
     aplicacao.register_blueprint(deletar_review_bp)
     aplicacao.register_blueprint(obter_review_bp)
+    aplicacao.register_blueprint(listar_reviews_bp)
     aplicacao.config["TESTING"] = True
     aplicacao.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
     aplicacao.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -105,18 +107,3 @@ def setup_database(app):
 @pytest.fixture
 def contexto():
     return {}
-
-@pytest.fixture
-def criar_review(app):
-    with app.app_context():
-        review = ReviewSala(
-            reserva_id=1,
-            sala_id=2,
-            usuario_id=3,
-            nota=4,
-            comentario="Sala boa, mas com algumas falhas.",
-        )
-        db.session.add(review)
-        db.session.commit()
-        db.session.refresh(review)
-        return review

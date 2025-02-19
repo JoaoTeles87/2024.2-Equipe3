@@ -19,9 +19,6 @@ registrarBlueprints(app)
 def not_found_error(error):
     return jsonify({"error": "Avaliação não encontrada para o ID fornecido."}), 404
 
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({"error": "Internal server error"}), 500
 
 with app.app_context():
     db.create_all()
