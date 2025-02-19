@@ -26,14 +26,12 @@ def client(app):
 @pytest.fixture
 def criar_review(app):
     with app.app_context():
-        data_avaliacao = datetime.strptime("Sat, 15 Feb 2025 16:31:37 GMT", "%a, %d %b %Y %H:%M:%S GMT")
         review = ReviewSala(
             reserva_id=1,
             sala_id=2,
             usuario_id=3,
             nota=4,
             comentario="Sala boa, mas com algumas falhas.",
-            data_avaliacao=data_avaliacao
         )
         db.session.add(review)
         db.session.commit()
