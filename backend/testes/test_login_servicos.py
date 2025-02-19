@@ -36,18 +36,20 @@ def enviarRequisicaoLogin(client, contexto, email, senha):
     resposta = client.post("/api/login", json={"email": email, "senha": senha})
     contexto["resposta"] = resposta
 
-@then("a resposta deve conter os dados do usuário")
-def verificarRespostaSucesso(contexto):
-    respostaJson = contexto["resposta"].get_json()
-    print(f"✅ [DEBUG] Resposta esperada: redirect='reserva'")
-    print(f"✅ [DEBUG] Resposta recebida: {respostaJson}")
-    
-    assert respostaJson["redirect"] == "reserva", f"Esperado: reserva, Recebido: {respostaJson}"
+
+                                
 # Then
+@then(parsers.parse('a resposta deve conter o email "{email}" e a rota "{rota}"'))
+def verificarRespostaSucesso(contexto, email, rota):
+    respostaJson = contexto["resposta"].get_json()
+    assert respostaJson["usuario"]["email"] == email, f"Esperado: {email}, Recebido: {respostaJson}"
+    assert respostaJson["redirect"] == rota, f"Esperado: {rota}, Recebido: {respostaJson['redirect']}"
+
 @then(parsers.parse('a resposta deve conter a mensagem "{mensagem}"'))
 def verificarRespostaFalha(contexto, mensagem):
     respostaJson = contexto["resposta"].get_json()
     assert respostaJson["error"] == mensagem, f"Esperado: {mensagem}, Recebido: {respostaJson}"
+    
 
 @then(parsers.parse('o status code deve ser "{status_code}"'))
 def verificarStatusCode(contexto, status_code):
