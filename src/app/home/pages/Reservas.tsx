@@ -1,3 +1,5 @@
+// TESTE PARA VER INTEGRAÇÃO COM O BACKEND
+
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

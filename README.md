@@ -1,3 +1,9 @@
+# 🚀 Guia de Integração do Frontend
+
+Este guia explica como configurar, estruturar e integrar o frontend do projeto React com o backend Flask.
+
+---
+
 # ESS Front-end React
 
 This is the Front-end base project in React for the Software and Systems Engineering discipline, offered by the Informatics Center (CIn) of the Federal University of Pernambuco (UFPE).
@@ -46,6 +52,26 @@ npm run
 
 This project uses `.env` files to manage environment variables. You can create a `.env.development` file in the project directory and set the environment variables in the file (iou can create it from .`env.example`). The `env` script in the `package.json` file uses the `env-cmd` package to load the environment variables from the `.env.development` file.
 
+Crie um arquivo .env na raiz do frontend e adicione a URL da API:
+```
+VITE_API_URL=http://127.0.0.1:5000
+```
+
+── 📂 src/ → Código-fonte do projeto
+│ ├── 📂 app/ → Páginas principais (leva a estilização das telas)
+│ │ ├── home/pages/Login.tsx → Tela de Login
+│ │ ├── home/pages/Cadastro.tsx → Tela de Cadastro
+│ │ ├── home/pages/Reservas.tsx → Tela após login
+│ │
+│ ├── 📂 shared/services/ → Serviços de integração com a API
+│ │ ├── autorizacao.tsx → Requisições de login/cadastro
+│ │
+│ ├── App.tsx → Arquivo principal do React onde você adiciona suas rotas criadas nas pages!
+│ ├── main.tsx → Ponto de entrada da aplicação
+│
+├── .env → Configuração da API
+├── package.json → Lista de dependências
+├── README.md → Você está aqui! 📌
 ### Running the App
 
 To start the app, run the following command:
@@ -55,6 +81,8 @@ npm run dev
 ```
 
 This command will run the React app in development with Vite.js script
+
+
 
 ## Rodando  o backend Flask
 
