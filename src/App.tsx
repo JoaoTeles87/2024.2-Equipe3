@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "../src/app/home/pages/Login";  // Importe a página de Login
+//import Reservas from "../src/app/home/pages/Reservas";  // Importe a página de Login
+import Cadastro from "../src/app/home/pages/Cadastro";  // Importe a página de Cadastro
+import Reservas from "../src/app/home/pages/Reservas";   
 
 function App() {
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Erro na API: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => setMessage(data.message))
-            .catch((error) => setError(error.message));
-    }, []);
+  
 
     return (
-        <div>
-            <h1>Testando API</h1>
-            {error ? <p style={{ color: "red" }}>{error}</p> : <p>{message}</p>}
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />  {/* Tela inicial = Login */}
+                <Route path="/cadastro" element={<Cadastro />} /> {/* Rota para Cadastro */}
+                <Route path="/reservas" element={<Reservas />} /> {/* Rota para Reservas */}
+            </Routes>
+        </Router>
     );
 }
 

@@ -39,11 +39,11 @@ def enviarRequisicaoLogin(client, contexto, email, senha):
 
                                 
 # Then
-@then(parsers.parse('a resposta deve conter o email "{email}" e a rota "{rota}"'))
-def verificarRespostaSucesso(contexto, email, rota):
+@then(parsers.parse('a resposta deve conter o email "{email}" e a mensagem "success" igual a True'))
+def verificarRespostaSucesso(contexto, email):
     respostaJson = contexto["resposta"].get_json()
     assert respostaJson["usuario"]["email"] == email, f"Esperado: {email}, Recebido: {respostaJson}"
-    assert respostaJson["redirect"] == rota, f"Esperado: {rota}, Recebido: {respostaJson['redirect']}"
+    assert respostaJson["success"] == True, f"Esperado: True, Recebido: {respostaJson['success']}"
 
 @then(parsers.parse('a resposta deve conter a mensagem "{mensagem}"'))
 def verificarRespostaFalha(contexto, mensagem):
