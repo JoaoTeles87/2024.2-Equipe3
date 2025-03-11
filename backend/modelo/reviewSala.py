@@ -7,7 +7,7 @@ class ReviewSala(db.Model):
     id = db.Column(db.Integer, primary_key=True)  
     reserva_id = db.Column(db.Integer, db.ForeignKey('reserva.id'), nullable=False) 
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)  
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)  
+    usuario_id = db.Column(db.Integer, db.ForeignKey('Usuario.id'), nullable=False)  
     nota = db.Column(db.Integer, nullable=False) 
     comentario = db.Column(db.String(500))  
     data_avaliacao = db.Column(db.DateTime, default=db.func.now())  

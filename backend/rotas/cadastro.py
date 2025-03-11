@@ -17,7 +17,7 @@ def validarCpf(cpf):
     padraoCpf = r'^\d{3}\.\d{3}\.\d{3}-\d{2}$'
     return bool(re.match(padraoCpf, cpf))
 
-@cadastro_bp.route("/api/cadastro", methods=["POST"])
+@cadastro_bp.route("/cadastro", methods=["POST"])
 def cadastro():
     data = request.get_json()
 

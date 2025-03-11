@@ -4,7 +4,7 @@ from datetime import datetime
 # Definindo a tabela de Reservas
 class Reserva(db.Model):
     id = db.Column(db.Integer, primary_key=True)  
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)  
+    usuario_id = db.Column(db.Integer, db.ForeignKey('Usuario.id'), nullable=False)  
     sala_id = db.Column(db.Integer, db.ForeignKey('sala.id'), nullable=False)  
     data_reserva = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)  
     data_inicio = db.Column(db.DateTime, nullable=False)  

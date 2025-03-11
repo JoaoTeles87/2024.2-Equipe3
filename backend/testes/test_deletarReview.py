@@ -6,22 +6,9 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 import pytest
 import json
 from datetime import datetime
-from backend.modelo.__init__ import create_app 
 from backend.modelo.extensao import db
 from backend.modelo.reviewSala import ReviewSala
 
-@pytest.fixture(scope="module")
-def app():
-    app = create_app()
-    with app.app_context():
-        db.create_all()  
-    yield app
-    with app.app_context():
-        db.drop_all() 
-
-@pytest.fixture
-def client(app):
-    return app.test_client()
 
 @pytest.fixture
 def criar_review(app):
