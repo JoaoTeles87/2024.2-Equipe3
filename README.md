@@ -57,21 +57,21 @@ Crie um arquivo .env na raiz do frontend e adicione a URL da API:
 VITE_API_URL=http://127.0.0.1:5000
 ```
 
-── 📂 src/ → Código-fonte do projeto
-│ ├── 📂 app/ → Páginas principais (leva a estilização das telas)
-│ │ ├── home/pages/Login.tsx → Tela de Login
-│ │ ├── home/pages/Cadastro.tsx → Tela de Cadastro
-│ │ ├── home/pages/Reservas.tsx → Tela após login
-│ │
-│ ├── 📂 shared/services/ → Serviços de integração com a API
-│ │ ├── autorizacao.tsx → Requisições de login/cadastro
-│ │
-│ ├── App.tsx → Arquivo principal do React onde você adiciona suas rotas criadas nas pages!
-│ ├── main.tsx → Ponto de entrada da aplicação
-│
-├── .env → Configuração da API
-├── package.json → Lista de dependências
-├── README.md → Você está aqui! 📌
+📂 src/ → Código-fonte do projeto │
+├── 📂 app/ → Páginas principais (leva a estilização das telas) │ ├── 📂 home/ │ │ ├── 📂 pages/ │ │ │ ├── Login.tsx → Tela de Login │ │ │ ├── Cadastro.tsx → Tela de Cadastro │ │ │ ├── Reservas.tsx → Tela após login │
+├── 📂 shared/ → Recursos compartilhados │ ├── 📂 services/ → Serviços de integração com a API │ │ ├── autorizacao.tsx → Requisições de login/cadastro │
+├── App.tsx → Arquivo principal do React onde você adiciona suas rotas criadas nas pages! ├── main.tsx → Ponto de entrada da aplicação │ ├── .env → Configuração da API ├── package.json → Lista de dependências ├── README.md → Você está aqui! 📌
+
+Endereço para se colocar as estilizações próprias de cada tela.
+```
+src\app\home\styles
+```
+
+Endereço onde se pode colocar arquivos css em comum ao sistema
+```
+src\shared\components
+```
+
 ### Running the App
 
 To start the app, run the following command:
