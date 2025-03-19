@@ -68,9 +68,9 @@ def informarSenha(contexto, senha):
 def confirmarSenha(contexto, confirmar_senha):
     contexto["dados_cadastro"]["confirmarSenha"] = confirmar_senha
 
-@when(parsers.parse('ele envia uma requisição POST para "/api/cadastro"'))
+@when(parsers.parse('ele envia uma requisição POST para "/cadastro"'))
 def enviarCadastro(client, contexto):
-    resposta = client.post("/api/cadastro", json=contexto["dados_cadastro"])
+    resposta = client.post("/cadastro", json=contexto["dados_cadastro"])
     contexto["resposta"] = resposta
     
 @when(parsers.parse('ele deixa o campo "Confirmar Senha" com ""'))
