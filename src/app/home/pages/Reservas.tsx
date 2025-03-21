@@ -6,14 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Reservas = () => {
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        
-        if (!token) {
-            alert("Acesso negado! Faça login para acessar esta página.");
-            navigate("/"); // Redireciona para login caso não tenha token
-        }
-    }, [navigate]);
+  
 
     return (
         <div>

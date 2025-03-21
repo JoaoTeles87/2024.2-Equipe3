@@ -8,7 +8,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa se é professor "N"
     And ele informa a senha "SecurePassword123"
     And ele informa a confirmação da senha "SecurePassword123"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Cadastro criado com sucesso!"
     And o status code deve ser "201"
 
@@ -21,7 +21,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa o SIAPE "101110"
     And ele informa a senha "12345678"
     And ele informa a confirmação da senha "12345678"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Cadastro criado com sucesso!"
     And o status code deve ser "201"
 
@@ -33,7 +33,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa se é professor "N"
     And ele informa a senha "Password123"
     And ele deixa o campo "Confirmar Senha" com ""
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Confirmar Senha é obrigatório."
     And o status code deve ser "400"
 
@@ -46,7 +46,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa o SIAPE "010101"
     And ele informa a senha "Password456"
     And ele informa a confirmação da senha "Password456"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Erro: email/cpf já está registrado."
     And o status code deve ser "409"
 
@@ -58,7 +58,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa se é professor "N"
     And ele informa a senha "MyPassword123"
     And ele informa a confirmação da senha "DifferentPassword123"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "As senhas não coincidem."
     And o status code deve ser "400"
 
@@ -70,7 +70,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa se é professor "N"
     And ele informa a senha "SenhaForte123"
     And ele informa a confirmação da senha "SenhaForte123"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Formato de email inválido. Use um email válido, como exemplo@dominio.com."
     And o status code deve ser "400"
 
@@ -82,7 +82,7 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa se é professor "N"
     And ele informa a senha "SenhaSegura456"
     And ele informa a confirmação da senha "SenhaSegura456"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "CPF inválido. Digite um CPF válido no formato XXX.XXX.XXX-XX."
     And o status code deve ser "400"
   
@@ -95,6 +95,6 @@ Feature: Serviço de Cadastro de Usuários
     And ele informa o SIAPE "101010"
     And ele informa a senha "Senha123"
     And ele informa a confirmação da senha "Senha123"
-    And ele envia uma requisição POST para "/api/cadastro"
+    And ele envia uma requisição POST para "/cadastro"
     Then a resposta deve conter a mensagem "Erro: siape já está registrado."
     And o status code deve ser "409"

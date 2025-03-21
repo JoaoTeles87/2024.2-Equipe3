@@ -11,7 +11,7 @@ app.config["TESTING"] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})  # Permite conexão com o frontend
+CORS(app, origins=["http://localhost:3000"])
 
 db.init_app(app)
 with app.app_context():
