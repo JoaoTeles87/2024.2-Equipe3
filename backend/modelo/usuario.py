@@ -9,3 +9,6 @@ class Usuario(db.Model):
     professor = db.Column(db.String(1), nullable=False)  # "S" ou "N"
     siape = db.Column(db.String(6), unique=True)
     senha = db.Column(db.String(200), nullable=False)
+
+    # Adicionando extend_existing=True para evitar conflitos com a definição da tabela
+    __table_args__ = {'extend_existing': True}
