@@ -33,7 +33,7 @@ export const cadastrar = async (dadosUsuario: any): Promise<ApiResponse> => {
   try {
     const response = await apiInstance.post("/cadastro", dadosUsuario);
 
-    if (response.status === 201 && response.data.success) {
+    if (response.status == 201 && response.data.message) {
       return { success: true, message: "Cadastro realizado com sucesso!" };
     }
 
