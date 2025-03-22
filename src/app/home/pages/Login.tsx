@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../../shared/components/Button";
 import Input from "../../../shared/components/Input";
 import ErrorMessage from "../../../shared/components/ErrorMessage";
-import styles from "../styles/Login.module.css"; // ✅ Estilos específicos
-import globalStyles from "../../../shared/components/LoginCadastro.module.css"; // ✅ Estilos compartilhados
+import styles from "../styles/Login.module.css"; 
+import globalStyles from "../../../shared/components/LoginCadastro.module.css"; 
 import Loader from "../../../shared/components/Loader";
 
 const Login = () => {
