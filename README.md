@@ -33,6 +33,8 @@ Clone the repository and install the dependencies by running the following comma
 
 ```
 npm install
+npm install react-bootstrap bootstrap
+
 ```
 
 ### First time running ?
