@@ -1,0 +1,87 @@
+/* Reset para garantir consistência */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container principal */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebarWrapper {
+  width: 250px; /* Alterado para combinar com a margem */
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background: #f0f0f0; /* Cor mais neutra */
+  z-index: 1000;
+  padding: 20px;
+}
+
+/* Conteúdo principal (fora da sidebar)*/
+.contentWrapper {
+  flex: 1;
+  margin-left: 250px; /* Igual à largura da sidebar */
+  padding: 30px;
+  min-height: 100vh;
+  background: #fff; /* Fundo branco padrão */
+}
+
+/* Título SAGAA */
+.title {
+  color: #2c3e50;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0; /* Borda sutil */
+  font-size: 2rem;
+}
+
+/* Menu */
+.menu {
+  list-style: none;
+  padding: 0px;
+  margin: 50px 0px;
+}
+
+/* Seções (Atividades, Solicitações) */
+.sectionTitle {
+  color: #8f9b8d;
+  font-size: 1.2rem;
+  letter-spacing: 0px;
+  margin: 50px 0 10px 0;
+  padding-left: 10px;
+}
+
+/* Itens (Perfil, Reservar, Avaliações, Recursos, Manutenções) */
+.menuItem {
+  padding: 0px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px 0; 
+  color: #34495e;
+  font-size: 1.1rem;
+}
+
+
+
+/* Links ativos - Adicionar classe .active */
+.active {
+  background-color: #f0f0f0 !important;
+  color: #6200ea !important;
+}
+
+.link {
+  text-decoration: none; 
+  color: inherit; 
+  font-weight: normal; 
+}
+
+.link:hover {
+  color: #6200ea; 
+}

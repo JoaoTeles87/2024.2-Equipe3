@@ -1,0 +1,62 @@
+ .container {
+          padding: 20px;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .filter-table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+
+        .filter-table th, .filter-table td {
+          padding: 12px;
+          border: 1px solid #ddd;
+          text-align: left;
+        }
+
+        .filter-table th {
+          background-color: #f8f9fa;
+        }
+
+        .equipment-section {
+          margin-top: 30px;
+        }
+
+        .category-group {
+          margin-bottom: 25px;
+        }
+
+        .equipment-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+          gap: 10px;
+        }
+
+        .equipment-item {
+          padding: 10px;
+          border: 1px solid #ddd;
+          background: #fff;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          border-radius: 4px;
+        }
+
+        .equipment-item.selected {
+          background-color: #2196F3;
+          color: white;
+          border-color: #1976D2;
+        }
+
+        .equipment-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        input {
+          padding: 8px;
+          width: 100%;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+        }
