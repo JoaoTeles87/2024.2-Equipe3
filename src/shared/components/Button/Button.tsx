@@ -1,28 +1,27 @@
 import React from "react";
+import styles from "./Button.module.css"; // Corrigido o nome do arquivo
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    children: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'danger';
+  children: React.ReactNode;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
-    return (
-        <button 
-            style={{
-                padding: "10px 20px",
-                fontSize: "16px",
-                backgroundColor: props.disabled ? "#ccc" : "#007bff",
-                color: "#fff",
-                border: "none",
-                borderRadius: "5px",
-                cursor: props.disabled ? "not-allowed" : "pointer",
-                transition: "background 0.3s",
-                fontWeight: "bold",
-            }}
-            {...props}
-        >
-            {children}
-        </button>
-    );
+const Button: React.FC<ButtonProps> = ({ 
+  variant = 'primary', 
+  className, 
+  children, 
+  ...props 
+}) => {
+  const buttonClassName = `${styles.button} ${styles[variant]} ${className || ''}`.trim();
+
+  return (
+    <button 
+      className={buttonClassName}
+      {...props}
+    >
+      {children}
+    </button>
+  );
 };
 
 export default Button;
