@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "/src/app/home/styles/ListarReview.module.css";
-import globalStyles from "../../../shared/components/LoginCadastro.module.css";
-import Button from "../../../shared/components/Button";
 import { useNavigate } from "react-router-dom";
 import StarRating from "../../../shared/components/StarRating";
 
@@ -41,46 +39,44 @@ const ListarReviews = () => {
   }, []);
 
   return (
-    <div className={globalStyles.container}>
-      <div className={globalStyles.card}>
-        <h2 className={styles.title}>Lista de Avaliações</h2>
+    <div className={styles.pageContainer}>
+      <h2 className={styles.title}>Lista de Avaliações</h2>
 
-        {error && <p className={styles.error}>{error}</p>}
+      {error && <p className={styles.error}>{error}</p>}
 
-        {reviews.length === 0 && !error && (
-          <p className={styles.subtitle}>Nenhuma avaliação encontrada.</p>
-        )}
+      {!error && reviews.length === 0 && (
+        <p className={styles.subtitle}>Nenhuma avaliação encontrada.</p>
+      )}
 
-        <div className={styles.reviewsContainer}>
-          {reviews.map((review) => (
-            <div key={review.id} className={styles.reviewCard}>
-              <h3 className={styles.reviewTitle}>Avaliação #{review.id}</h3>
-              <p><strong>Reserva ID:</strong> {review.reserva_id}</p>
-              <p><strong>Sala ID:</strong> {review.sala_id}</p>
-              <p><strong>Usuário ID:</strong> {review.usuario_id}</p>
-              <div className={styles.reviewItem}>
-                <h3>Nota:</h3>
-                
-                <div className={styles.starsWrapper}>
-                  <StarRating rating={review.nota} editable={false} />
-                </div>
+      <div className={styles.gridContainer}>
+        {reviews.map((review) => (
+          <div key={review.id} className={styles.card}>
+            <h3 className={styles.reviewTitle}>Avaliação #{review.id}</h3>
+            <p><strong>Reserva ID:</strong> {review.reserva_id}</p>
+            <p><strong>Sala ID:</strong> {review.sala_id}</p>
+            <p><strong>Usuário ID:</strong> {review.usuario_id}</p>
+            
+            <div className={styles.reviewItem}>
+              <h3>Nota:</h3>
+              <div className={styles.starsWrapper}>
+                <StarRating rating={review.nota} editable={false} />
               </div>
-              <p><strong>Comentário:</strong> {review.comentario || "Sem comentário."}</p>
-              <p><strong>Data da Avaliação:</strong> {new Date(review.data_avaliacao).toLocaleDateString()}</p>
             </div>
-          ))}
-        </div>
-
-        <div className={styles.footer}>
-          <Button
-            onClick={() => navigate("/home")}
-            className={styles.button}
-            style={{ backgroundColor: "#6200ea", color: "#fff", borderRadius: "5px" }}
-          >
-            Voltar ao Início
-          </Button>
-        </div>
+            
+            <p><strong>Comentário:</strong> {review.comentario || "Sem comentário."}</p>
+            <p><strong>Data da Avaliação:</strong> {new Date(review.data_avaliacao).toLocaleDateString()}</p>
+          </div>
+        ))}
       </div>
+      <div className={styles.footer}>
+        <button
+          onClick={() => navigate("/home")}
+          className={styles.button}
+        >
+          Voltar ao Início
+        </button>
+      </div>
+
     </div>
   );
 };

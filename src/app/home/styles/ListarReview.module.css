@@ -1,79 +1,105 @@
-.title {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .reviewsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .reviewCard {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    transition: box-shadow 0.3s;
-  }
-  
-  .reviewCard:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .reviewTitle {
-    font-size: 18px;
-    font-weight: 600;
-    color: #6200ea;
-    margin-bottom: 10px;
-  }
-  
-  .footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  
-  .button {
-    background-color: #6200ea !important;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .button:hover {
-    background-color: #4b00c2 !important;
-  }
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
 
-  .starsWrapper {
-    display: flex;
-    justify-content: center;
-    margin: 10px 0;
-  }
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.reviewTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #6200ea;
+  margin-bottom: 0.75rem;
+}
+
+.reviewItem {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+.starsWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  margin-top: 2rem; /* Espaço do grid até o botão */
+}
+
+.button {
+  background-color: #6200ea !important;
+  color: #fff;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
   
-  .reviewItem {
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    text-align: center; /* Centraliza tudo dentro do item */
-  }
-  
+  width: auto;            /* Para não pegar largura total */
+  min-width: 200px;       /* Um tamanho mínimo para não ficar pequeno demais */
+  max-width: 300px;       /* Evita que ele fique gigante */
+  text-align: center;     /* Texto centralizado no botão */
+}
+
+.button:hover {
+  background-color: #4b00c2 !important;
+}
