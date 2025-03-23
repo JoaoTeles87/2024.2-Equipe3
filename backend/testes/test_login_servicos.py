@@ -33,7 +33,7 @@ def usuarioSemCredenciais(contexto):
 # When
 @when(parsers.parse('ele envia uma requisição POST para "/api/login" com os dados "{email}" e "{senha}"'))
 def enviarRequisicaoLogin(client, contexto, email, senha):
-    resposta = client.post("/api/login", json={"email": email, "senha": senha})
+    resposta = client.post("/", json={"email": email, "senha": senha})
     contexto["resposta"] = resposta
 
 
