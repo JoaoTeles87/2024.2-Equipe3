@@ -29,7 +29,7 @@ def criar_review():
         sala_id=data.get("sala_id"),
         usuario_id=data.get("usuario_id"),
         nota=data.get("nota"),
-        comentario=data.get("comentario")
+        comentario=data.get("comentario"),
     )
     db.session.add(nova_review)
     db.session.commit()

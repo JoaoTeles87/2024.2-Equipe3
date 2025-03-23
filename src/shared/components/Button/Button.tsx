@@ -1,10 +1,13 @@
 import React from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    onClick?: () => void;
     children: React.ReactNode;
+    variant?: "primary" | "danger" | "success";
 }
 
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
+    
     return (
         <button 
             style={{
@@ -22,6 +25,7 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
         >
             {children}
         </button>
+
     );
 };
 
