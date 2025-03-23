@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./app/home/pages/Login";
+import Cadastro from "./app/home/pages/Cadastro";
+import Perfil from "./app/home/pages/Perfil"; 
+import Reservas from "./app/home/pages/Reservas";
+
 
 function App() {
-    const [message, setMessage] = useState("");
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        fetch(import.meta.env.VITE_API_URL)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Erro na API: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => setMessage(data.message))
-            .catch((error) => setError(error.message));
-    }, []);
-
     return (
-        <div>
-            <h1>Testando API</h1>
-            {error ? <p style={{ color: "red" }}>{error}</p> : <p>{message}</p>}
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/perfil" element={<Perfil />} />
+                {/* <Route path="/reservas" element={<Reservas />} /> */}
+            </Routes>
+        </Router>
     );
 }
 

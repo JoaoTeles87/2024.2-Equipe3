@@ -58,22 +58,18 @@ export class ApiService {
     }
   }
 
-  public async post(
+  public async post<T>(
     path: string,
     body: any
-  ): Promise<Result<BaseApiResponseModel>> {
+  ): Promise<SuccessResult<T> | FailureResult<HttpError>> {
     try {
-      const response = await this.httpClient.post(path, body, {
+      const response = await this.httpClient.post<T>(path, body, {
         headers: this.headers,
       });
 
-      const baseApiResponseModel = new BaseApiResponseModel(response.data);
-
-      return new SuccessResult(baseApiResponseModel);
+      return new SuccessResult(response.data); 
     } catch (e) {
-      const error = e as Error | AxiosError;
-
-      return this.handleHttpError(error);
+      return this.handleHttpError(e as AxiosError);
     }
   }
 

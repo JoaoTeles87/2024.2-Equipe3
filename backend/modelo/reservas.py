@@ -41,6 +41,7 @@ mock_reservas = [
         "end_time": "18:00",
         "status": "ativa"
     }
+    
 ]
 
 MOCK_RESERVAS_COPY = copy.copy(mock_reservas)

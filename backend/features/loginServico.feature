@@ -3,7 +3,7 @@ Feature: Autenticação de usuários
   Scenario: Sucesso no login
     Given o usuário possui o email "demostenes@example.com" e a senha "SecurePassword123" válidos
     When ele envia uma requisição POST para "/api/login" com os dados "demostenes@example.com" e "SecurePassword123"
-    Then a resposta deve conter o email "demostenes@example.com" e a rota "/api/reservas"
+    Then a resposta deve conter o email "demostenes@example.com" e a mensagem "success" igual a True
     And o status code deve ser "200"
 
   Scenario: Fracasso no login por senha incorreta
