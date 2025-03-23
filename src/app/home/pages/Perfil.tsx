@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { FaEdit, FaTrash, FaStar, FaUser, FaTimes } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import styles from '../styles/Perfil.module.css';
 import Button from '../../../shared/components/Button/Button';
 import Input from '../../../shared/components/Input';
@@ -51,7 +50,6 @@ interface DeleteConfirmation {
 }
 
 const Perfil = () => {
-  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfile | null>({
     id: 1,
     nome: "Carlos Santos",
