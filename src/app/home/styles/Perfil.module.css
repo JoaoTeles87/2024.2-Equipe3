@@ -1,0 +1,247 @@
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .profileSection {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profileField {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .label {
+    font-weight: 600;
+    min-width: 100px;
+    color: #333;
+  }
+  
+  .value {
+    color: #666;
+    margin-left: 10px;
+  }
+  
+  .actionButtons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 15px;
+  }
+  
+  .editButton {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: #007bff;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .editButton:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+  }
+  
+  .editIcon {
+    font-size: 18px;
+  }
+  
+  .deleteAccountOutline {
+    border: 1px solid #dc3545;
+    background: transparent;
+    color: #dc3545;
+  }
+  
+  .deleteAccountOutline:hover {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .reservationSection {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .historySection {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservationTitle {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+  
+  .reservationCard {
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+  }
+  
+  .reservationHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .reservationContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  
+  .reservationInfo {
+    flex: 1;
+  }
+  
+  .reservationDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 50%;
+  }
+  
+  .rating {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .comment {
+    font-style: italic;
+    color: #666;
+    text-align: right;
+    margin: 0;
+  }
+  
+  .starFilled {
+    color: #ffc107;
+  }
+  
+  .starEmpty {
+    color: #e0e0e0;
+  }
+  
+  .emptyMessage {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+  }
+  
+  .modalContent {
+    padding: 20px;
+  }
+  
+  .modalForm {
+    margin: 20px 0;
+  }
+  
+  .modalField {
+    margin-bottom: 15px;
+  }
+  
+  .modalField label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .deleteIcon {
+    font-size: 56px;
+    color: #dc3545;
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin: 0 auto 20px;
+  }
+  
+  .times {
+    position: absolute;
+    font-size: 24px;
+    color: white;
+    background: #dc3545;
+    border-radius: 50%;
+    padding: 5px;
+    top: 80%;
+    right: -4px;
+    transform: translateY(-50%);
+    border: 2px solid white;
+  }
+  
+  .deleteTitle {
+    text-align: center;
+    color: #dc3545;
+    margin-bottom: 15px;
+  }
+  
+  .deleteWarning {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .errorMessage {
+    color: #dc3545;
+    margin: 10px 0;
+    text-align: center;
+  }
+  
+  .deleteButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    margin-left: auto;
+  }
+  
+  .reservationInfo p {
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .emptyMessage {
+    padding: 20px;
+    text-align: center;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+  
+  .emptyMessage p {
+    color: #666;
+    font-style: italic;
+    margin: 0;
+  }
