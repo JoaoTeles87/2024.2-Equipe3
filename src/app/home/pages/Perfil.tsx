@@ -7,7 +7,6 @@ import ErrorMessage from '../../../shared/components/ErrorMessage';
 import Modal from '../../../shared/components/Modal/Modal';
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
-import Dropdown from 'react-bootstrap/Dropdown';
 
 interface UserProfile {
   id: number;
