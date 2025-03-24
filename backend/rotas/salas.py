@@ -61,22 +61,24 @@ def create_sala():
 # Get salas
 @salas_bp.route('/api/salas', methods=['GET'])
 def get_salas_disponiveis():
-    equipamentos_filtro = request.args.getlist("equipamentos")  # Get filter from query params
+    equipamentos_filtro = request.args.getlist("equipamentos")
     data = request.args.get("data")
     start_time = request.args.get("start_time")
     end_time = request.args.get("end_time")
+    tipo = request.args.get("tipo")
 
-    if not equipamentos_filtro and not data and not start_time and not end_time:
+    if not equipamentos_filtro and not data and not start_time and not end_time and not tipo:
         return jsonify(mock_salas), 200
     elif not data:
         return jsonify({'erro': 'data não informada'}), 400
     elif not start_time or not end_time:
         return jsonify({'erro': 'tempo não informado'}), 400
 
-
+    # Filtra por equipamentos E tipo (se tipo estiver presente)
     salas_filtradas = [
         sala for sala in mock_salas
-        if not equipamentos_filtro or all(eq in sala["equipamentos"] for eq in equipamentos_filtro)
+        if (not equipamentos_filtro or all(eq in sala["equipamentos"] for eq in equipamentos_filtro)) and
+           (not tipo or sala["tipo"].lower() == tipo.lower())
     ]
 
     if data and start_time and end_time:
@@ -95,8 +97,8 @@ def get_salas_disponiveis():
     else:
         salas_disponiveis = salas_filtradas
 
-    if not salas_disponiveis:
-        return jsonify({'mensagem': 'nenhuma sala encontrada'}), 404
+    # if not salas_disponiveis:
+    #     return jsonify({'mensagem': 'nenhuma sala encontrada'}), 404
 
     return jsonify(salas_disponiveis), 200
 
