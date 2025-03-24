@@ -22,6 +22,39 @@ const Reservar = () => {
         "Mouse", "Teclado", "Monitor", "USB-C", "Cafeteira", "Gelágua"
     ];
 
+    const handleReserva = async (salaId: number) => {
+        const professorId = 3; // Mockado mesmo
+      
+        const reservaData = {
+          sala_id: salaId,
+          data: data,
+          start_time: horaInicio,
+          end_time: horaFim,
+        };
+      
+        try {
+          const response = await fetch(`http://127.0.0.1:5000/api/reservas/${professorId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(reservaData)
+        });
+      
+          const resultado = await response.json();
+      
+          if (response.ok) {
+            alert("Reserva criada com sucesso!");
+          } else {
+            alert(resultado.erro || "Erro ao criar reserva.");
+          }
+        } catch (error) {
+          console.error("Erro na requisição:", error);
+          alert("Erro ao conectar com o servidor.");
+        }
+    };
+
+
     const handleProcurarSalas = async () => {
         if (!data || !horaInicio || !horaFim) {
             alert("Data e horários são obrigatórios");
@@ -261,7 +294,7 @@ const Reservar = () => {
                             <SalaCard
                                 key={sala.id}
                                 sala={sala}
-                                onReservar={() => alert(`Reservar ${sala.nome}`)}
+                                onReservar={() => handleReserva(sala.id)}
                             />
                         ))
                     )}
