@@ -127,7 +127,7 @@ const Reservar = () => {
                 >
                     {/* Tipo de Sala */}
                     <div style={{ display: "flex", flexDirection: "column" }}>
-                        <label>Tipo de Sala</label>
+                        <label>Tipo de sala</label>
                         <div style={{ position: "relative" }}>
                         <select
                             value={tipoSala}
@@ -157,6 +157,7 @@ const Reservar = () => {
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <label>Data</label>
                         <input
+                        name="data"
                         type="date"
                         value={data}
                         onChange={(e) => setData(e.target.value)}

@@ -56,7 +56,8 @@
     "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "start-server-and-test": "^2.0.0",
-    "typescript": "^5.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2",
     "vite": "^4.3.2",
     "vite-plugin-istanbul": "^4.1.0",
     "vitest": "^0.31.1"

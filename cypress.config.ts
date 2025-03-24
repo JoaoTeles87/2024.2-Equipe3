@@ -20,10 +20,7 @@ export default defineConfig({
     },
   },
   e2e: {
-    async setupNodeEvents(
-      on: Cypress.PluginEvents,
-      config: Cypress.PluginConfigOptions
-    ): Promise<Cypress.PluginConfigOptions> {
+    async setupNodeEvents(on, config) {
       await cucumberPreprocessor.addCucumberPreprocessorPlugin(on, config);
 
       on(
@@ -32,9 +29,6 @@ export default defineConfig({
           plugins: [createEsbuildPlugin(config)],
         })
       );
-
-      // TODO: Fix coverage
-      // coverageTask(on, config);
 
       return config;
     },
