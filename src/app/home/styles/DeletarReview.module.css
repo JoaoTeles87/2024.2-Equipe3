@@ -1,36 +1,63 @@
+.layoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f4f4f4;
+}
+
+.centeredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.centeredContent .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
 .title {
-    font-size: 24px;
-    font-weight: bold;
-    color: #d32f2f;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .confirmText {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .buttonGroup {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 20px;
-  }
-  
-  .error {
-    color: #d32f2f;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .success {
-    color: #388e3c;
-    font-weight: bold;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
+  font-size: 24px;
+  font-weight: bold;
+  color: #d32f2f;
+  margin-bottom: 20px;
+}
+
+.confirmText {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.error, .success {
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.error {
+  color: #d32f2f;
+}
+
+.success {
+  color: #388e3c;
+}

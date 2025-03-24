@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "/src/app/home/styles/DeletarReview.module.css";
 import Button from "../../../shared/components/Button/Button";
 import globalStyles from "../../../shared/components/LoginCadastro.module.css";
+import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
+import SideBar from "../../../shared/components/SideBar/SideBar";
 
 const DeletarReview = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +29,7 @@ const DeletarReview = () => {
       setSuccess(data.mensagem || "Avaliação deletada com sucesso!");
 
       setTimeout(() => {
-        navigate("/reviews");
+        navigate("/avaliacoes");
       }, 1500);
     } catch (err) {
       setError("Erro ao conectar com o servidor.");
@@ -35,29 +37,38 @@ const DeletarReview = () => {
   };
 
   return (
-    <div className={globalStyles.container}>
-      <div className={globalStyles.card}>
-        <h2 className={styles.title}>Deletar Avaliação #{id}</h2>
+    <div className={stylesSideBar.layoutContainer}>
+      {/* Sidebar fixa à esquerda */}
+      <div className={stylesSideBar.sidebarWrapper}>
+        <SideBar />
+      </div>
 
-        {error && <p className={styles.error}>{error}</p>}
-        {success && <p className={styles.success}>{success}</p>}
+      {/* Conteúdo da página */}
+      <div className={`${stylesSideBar.contentWrapper} ${styles.centeredContent}`}>
+        <div className={globalStyles.card}>
+          <h2 className={styles.title}>Deletar Avaliação #{id}</h2>
 
-        {!success && (
-          <>
-            <p className={styles.confirmText}>
-              Tem certeza que deseja excluir essa avaliação? Essa ação não pode ser desfeita!
-            </p>
+          {error && <p className={styles.error}>{error}</p>}
+          {success && <p className={styles.success}>{success}</p>}
 
-            <div className={styles.buttonGroup}>
-              <Button onClick={handleDelete} variant="danger">
-                Confirmar Exclusão
-              </Button>
-              <Button onClick={() => navigate(-1)}>Cancelar</Button>
-            </div>
-          </>
-        )}
+          {!success && (
+            <>
+              <p className={styles.confirmText}>
+                Tem certeza que deseja excluir essa avaliação? Essa ação não pode ser desfeita!
+              </p>
+              <div className={styles.buttonGroup}>
+                <Button onClick={handleDelete} variant="danger">
+                  Confirmar Exclusão
+                </Button>
+                <Button onClick={() => navigate(-1)}>Cancelar</Button>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
+
+
   );
 };
 

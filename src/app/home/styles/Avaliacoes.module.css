@@ -80,8 +80,8 @@
 .footer {
   width: 100%;
   display: flex;
-  justify-content: center; /* Centraliza horizontalmente */
-  margin-top: 2rem; /* Espaço do grid até o botão */
+  justify-content: center;
+  margin-top: 2rem;
 }
 
 .button {
@@ -94,12 +94,46 @@
   cursor: pointer;
   transition: background-color 0.2s ease;
   
-  width: auto;            /* Para não pegar largura total */
-  min-width: 200px;       /* Um tamanho mínimo para não ficar pequeno demais */
-  max-width: 300px;       /* Evita que ele fique gigante */
-  text-align: center;     /* Texto centralizado no botão */
+  width: auto;
+  min-width: 200px;
+  max-width: 300px;
+  text-align: center;
 }
 
 .button:hover {
   background-color: #4b00c2 !important;
+}
+
+.comment {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+
+.addButtonWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.addButton {
+  background-color: #6200ea;
+  color: #fff;
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: auto;
+  min-width: 200px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.addButton:hover {
+  background-color: #4b00c2;
 }

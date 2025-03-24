@@ -7,7 +7,7 @@ import Recursos from "./app/home/pages/Recursos";
 import Manutencoes from "./app/home/pages/Manutencoes";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Avaliacoes from "../src/app/home/pages/Avaliacoes";
-import ListarReviews from "../src/app/home/pages/ListarReview";
+import AvaliarSala from "../src/app/home/pages/CriarReview";
 import ReviewDetalhes from "../src/app/home/pages/ObterReview";
 import DeletarReview from "../src/app/home/pages/DeletarReview";
 import AtualizarReview from "../src/app/home/pages/AtualizarReview";
@@ -23,11 +23,11 @@ function App() {
                 <Route path="/perfil" element={<Perfil />} /> {/* Rota para Modal */}
                 <Route path="/recursos" element={<Recursos />} /> {/* Rota para Recursos */}
                 <Route path ="/manutencoes" element={<Manutencoes />} /> {/* Rota para Manutenções */}
-                <Route path="/criar-review" element={<Avaliacoes />} /> {/* Rota para Criar Review */}
-                <Route path="/reviews" element={<ListarReviews />} /> {/* Rota para Listar Review */}
-                <Route path="/reviews/:id" element={<ReviewDetalhes />} /> {/* Rota para Obter Review */}
-                <Route path="/reviews/:id/delete" element={<DeletarReview />} /> {/* Rota para Deletar Review */}
-                <Route path="/reviews/:id/edit" element={<AtualizarReview />} /> {/* Rota para Atualizar Review */}
+                <Route path="/avaliacoes" element={<Avaliacoes />} /> {/* Rota para Criar Review */}
+                <Route path="/criar-avaliacao" element={<AvaliarSala />} /> {/* Rota para Criar Review */}
+                <Route path="/avaliacoes/:id" element={<ReviewDetalhes />} /> {/* Rota para Obter Review */}
+                <Route path="/avaliacoes/:id/delete" element={<DeletarReview />} /> {/* Rota para Deletar Review */}
+                <Route path="/avaliacoes/:id/edit" element={<AtualizarReview />} /> {/* Rota para Atualizar Review */}
             </Routes>
         </Router>
     );

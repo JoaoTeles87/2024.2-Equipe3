@@ -1,141 +1,112 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import styles from "/src/app/home/styles/Avaliacoes.module.css";
 import { useNavigate } from "react-router-dom";
-import Button from "../../../shared/components/Button";
-import Input from "../../../shared/components/Input";
-import ErrorMessage from "../../../shared/components/ErrorMessage";
-import styles from "/src/app/home/styles/CriarReview.module.css"; // Estilos específicos
-import globalStyles from "../../../shared/components/LoginCadastro.module.css"; // Estilos compartilhados
 import StarRating from "../../../shared/components/StarRating/StarRating";
 import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 
+interface Review {
+    id: number;
+    reserva_id: number;
+    sala_id: number;
+    usuario_id: number;
+    nota: number;
+    comentario: string;
+    data_avaliacao: string;
+}
 
-
-const AvaliarSala = () => {
-    const [reservaId, setReservaId] = useState("");
-    const [salaId, setSalaId] = useState("");
-    const [usuarioId, setUsuarioId] = useState("");
-    const [nota, setNota] = useState("");
-    const [comentario, setComentario] = useState("");
+const ListarReviews = () => {
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/api/reviews");
+                if (!response.ok) {
+                    const data = await response.json();
+                    setError(data.error || "Erro ao buscar avaliações.");
+                    return;
+                }
 
-        if (!reservaId || !salaId || !usuarioId || !nota) {
-            setError("Por favor, preencha todos os campos obrigatórios.");
-            return;
-        }
-
-        const payload = {
-            reserva_id: parseInt(reservaId),
-            sala_id: parseInt(salaId),
-            usuario_id: parseInt(usuarioId),
-            nota: parseInt(nota),
-            comentario,
+                const data = await response.json();
+                setReviews(data);
+            } catch (err) {
+                setError("Erro ao conectar com o servidor.");
+            }
         };
 
-        try {
-            const response = await fetch("http://localhost:5000/api/reviews", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+        fetchReviews();
+    }, []);
 
-            const data = await response.json();
-
-            if (!response.ok) {
-                setError(data.error || "Erro ao enviar avaliação.");
-                return;
-            }
-
-            setSuccess("Avaliação enviada com sucesso!");
-
-            setReservaId("");
-            setSalaId("");
-            setUsuarioId("");
-            setNota("");
-            setComentario("");
-            setError("");
-
-        } catch (err) {
-            setError("Erro ao conectar com o servidor. Tente novamente.");
-        }
+    const handleReviewClick = (reviewId: number) => {
+        navigate(`/avaliacoes/${reviewId}`);
     };
 
     return (
-        <div className={stylesSideBar.layoutContainer}>
-            {/* Sidebar fixa à esquerda */}
-            <div className={stylesSideBar.sidebarWrapper}>
-                <SideBar />
-            </div>
+        <div className={styles.pageContainer}>
+            <div className={stylesSideBar.layoutContainer}>
+                {/* Sidebar */}
+                <div className={stylesSideBar.sidebarWrapper}>
+                    <SideBar />
+                </div>
 
-            {/* Conteúdo da página */}
-            <div className={stylesSideBar.contentWrapper}>
-                <div className={globalStyles.container}>
-                    <div className={globalStyles.card}>
-                        <h2 className={styles.title}>Avaliar Sala</h2>
-                        <p className={styles.subtitle}>Envie sua avaliação para a sala reservada</p>
+                {/* Conteúdo da página */}
+                <div className={stylesSideBar.contentWrapper}>
+                    <h2 className={styles.title}>Avaliações de Usuários</h2>
 
-                        {error && <ErrorMessage message={error} />}
-                        {success && <p className={styles.successMessage}>{success}</p>}
+                    {/* Botão Adicionar Avaliação */}
+                    <div className={styles.addButtonWrapper}>
+                        <button
+                            onClick={() => navigate("/criar-avaliacao")}
+                            className={styles.addButton}
+                        >
+                            Adicionar Avaliação
+                        </button>
+                    </div>
 
-                        <form onSubmit={handleSubmit} className={styles.form}>
-                            <Input
-                                type="text"
-                                placeholder="ID da Reserva"
-                                value={reservaId}
-                                onValueChange={setReservaId}
-                                required
-                            />
-                            <Input
-                                type="text"
-                                placeholder="ID da Sala"
-                                value={salaId}
-                                onValueChange={setSalaId}
-                                required
-                            />
-                            <Input
-                                type="text"
-                                placeholder="ID do Usuário"
-                                value={usuarioId}
-                                onValueChange={setUsuarioId}
-                                required
-                            />
-                            <div className={styles.starsWrapper}>
-                                <label className={styles.label}>Nota:</label>
-                                <StarRating
-                                    rating={parseInt(nota) || 0}
-                                    onRatingChange={(newRating) => setNota(newRating.toString())}
-                                    editable={true}
-                                />
+                    {error && <p className={styles.error}>{error}</p>}
+
+                    {!error && reviews.length === 0 && (
+                        <p className={styles.subtitle}>Nenhuma avaliação encontrada.</p>
+                    )}
+
+                    <div className={styles.gridContainer}>
+                        {reviews.map((review) => (
+                            <div
+                                key={review.id}
+                                className={styles.card}
+                                onClick={() => handleReviewClick(review.id)}
+                            >
+                                <h3 className={styles.reviewTitle}>Avaliação #{review.id}</h3>
+                                <p><strong>ID da Reserva:</strong> {review.reserva_id}</p>
+                                <p><strong>ID da Sala:</strong> {review.sala_id}</p>
+                                <p><strong>ID do Usuário:</strong> {review.usuario_id}</p>
+
+                                <div className={styles.reviewItem}>
+                                    <h3>Nota:</h3>
+                                    <div className={styles.starsWrapper}>
+                                        <StarRating rating={review.nota} editable={false} />
+                                    </div>
+                                </div>
+
+                                <div className={styles.reviewItem}>
+                                    <strong>Comentário:</strong>
+                                    <p className={styles.comment}>{review.comentario || "Sem comentário."}</p>
+                                </div>
+                                <p><strong>Data da Avaliação:</strong> {new Date(review.data_avaliacao).toLocaleDateString()}</p>
                             </div>
+                        ))}
+                    </div>
 
-                            <textarea
-                                className={styles.textarea}
-                                placeholder="Comentário (opcional)"
-                                value={comentario}
-                                onChange={(e) => setComentario(e.target.value)}
-                            ></textarea>
-
-                            <div className={styles.footer}>
-                                <span className={styles.link} onClick={() => navigate("/dashboard")}>
-                                    Voltar para o painel
-                                </span>
-                                <Button
-                                    type="submit"
-                                    className={styles.button}
-                                    style={{ backgroundColor: "#6200ea", color: "#fff", borderRadius: "5px" }}
-                                >
-                                    Enviar Avaliação
-                                </Button>
-                            </div>
-                        </form>
+                    <div className={styles.footer}>
+                        <button
+                            onClick={() => navigate("/perfil")}
+                            className={styles.button}
+                        >
+                            Voltar ao Início
+                        </button>
                     </div>
                 </div>
             </div>
@@ -143,4 +114,4 @@ const AvaliarSala = () => {
     );
 };
 
-export default AvaliarSala;
+export default ListarReviews;

@@ -4,6 +4,8 @@ import styles from "/src/app/home/styles/ObterReview.module.css";
 import Button from "../../../shared/components/Button/Button";
 import globalStyles from "../../../shared/components/LoginCadastro.module.css";
 import StarRating from "../../../shared/components/StarRating/StarRating";
+import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
+import SideBar from "../../../shared/components/SideBar/SideBar";
 
 interface Review {
   id: number;
@@ -45,10 +47,27 @@ const ReviewDetalhes = () => {
 
   if (error) {
     return (
-      <div className={globalStyles.container}>
-        <div className={globalStyles.card}>
-          <p className={styles.error}>{error}</p>
-          <Button onClick={() => navigate(-1)}>Voltar</Button>
+      <div className={styles.pageContainer}>
+        <div className={stylesSideBar.layoutContainer}>
+
+          {/* Sidebar */}
+          <div className={stylesSideBar.sidebarWrapper}>
+            <SideBar />
+          </div>
+
+          {/* Conteúdo principal */}
+          <div className={stylesSideBar.contentWrapper}>
+            <div className={globalStyles.container}>
+              <div className={globalStyles.card}>
+                <p className={styles.error}>{error}</p>
+                <div className={styles.footer}>
+                  <Button className={styles.button} onClick={() => navigate(-1)}>
+                    Voltar
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -56,65 +75,92 @@ const ReviewDetalhes = () => {
 
   if (!review) {
     return (
-      <div className={globalStyles.container}>
-        <div className={globalStyles.card}>
-          <p>Carregando avaliação...</p>
+      <div className={styles.pageContainer}>
+        <div className={stylesSideBar.layoutContainer}>
+
+          {/* Sidebar */}
+          <div className={stylesSideBar.sidebarWrapper}>
+            <SideBar />
+          </div>
+
+          {/* Conteúdo principal */}
+          <div className={stylesSideBar.contentWrapper}>
+            <div className={globalStyles.container}>
+              <div className={globalStyles.card}>
+                <p>Carregando avaliação...</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+
   return (
-    <div className={globalStyles.container}>
-      <div className={globalStyles.card}>
-        <h2 className={styles.title}>Detalhes da Avaliação #{review.id}</h2>
+    <div className={styles.pageContainer}>
+      <div className={stylesSideBar.layoutContainer}>
 
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Reserva ID:</span>
-          <span>{review.reserva_id}</span>
+        {/* Sidebar */}
+        <div className={stylesSideBar.sidebarWrapper}>
+          <SideBar />
         </div>
 
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Sala ID:</span>
-          <span>{review.sala_id}</span>
-        </div>
+        {/* Conteúdo da Página */}
+        <div className={stylesSideBar.contentWrapper}>
+          <div className={globalStyles.container}>
+            <div className={globalStyles.card}>
+              <h2 className={styles.title}>Detalhes da Avaliação #{review.id}</h2>
 
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Usuário ID:</span>
-          <span>{review.usuario_id}</span>
-        </div>
+              <div className={styles.detailItem}>
+                <span className={styles.label}>ID da Reserva:</span>
+                <span>{review.reserva_id}</span>
+              </div>
 
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Nota:</span>
-          
-          <div className={styles.starsWrapper}>
-            <StarRating rating={review.nota} editable={false} />
+              <div className={styles.detailItem}>
+                <span className={styles.label}>ID da Sala:</span>
+                <span>{review.sala_id}</span>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span className={styles.label}>ID do Usuário:</span>
+                <span>{review.usuario_id}</span>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span className={styles.label}>Nota:</span>
+                <div className={styles.starsWrapper}>
+                  <StarRating rating={review.nota} editable={false} />
+                </div>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span className={styles.label}>Comentário:</span>
+                <div className={styles.comentario}>{review.comentario || "Sem comentário."}</div>
+              </div>
+
+              <div className={styles.detailItem}>
+                <span className={styles.label}>Data da Avaliação:</span>
+                <span>{new Date(review.data_avaliacao).toLocaleString()}</span>
+              </div>
+
+              <div className={styles.footer}>
+                <Button variant="danger" onClick={() => navigate(`/avaliacoes/${review.id}/delete`)}>
+                  Excluir Avaliação
+                </Button>
+                <Button onClick={() => navigate(`/avaliacoes/${review.id}/edit`)}>
+                  Editar Avaliação
+                </Button>
+                <Button onClick={() => navigate('/avaliacoes')}>
+                  Voltar
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Comentário:</span>
-          <span>{review.comentario || "Sem comentário."}</span>
-        </div>
-
-        <div className={styles.detailItem}>
-          <span className={styles.label}>Data da Avaliação:</span>
-          <span>{new Date(review.data_avaliacao).toLocaleString()}</span>
-        </div>
-
-        <div className={styles.footer}>
-          <Button variant="danger" onClick={() => navigate(`/reviews/${review.id}/delete`)}>
-            Excluir Avaliação
-          </Button>
-          <Button onClick={() => navigate(`/reviews/${review.id}/edit`)}>
-            Editar Avaliação
-          </Button>
-          <Button onClick={() => navigate('/reviews')}>
-            Voltar
-          </Button>
         </div>
       </div>
     </div>
+
   );
 };
 

@@ -81,7 +81,7 @@ const AtualizarReview = () => {
       setError("");
 
       setTimeout(() => {
-        navigate(`/home/reviews/${id}`); // redireciona para o detalhe da review
+        navigate(`/avaliacoes/reviews/${id}`); // redireciona para o detalhe da review
       }, 2000);
 
     } catch (err) {
@@ -114,54 +114,54 @@ const AtualizarReview = () => {
 
     <div className={stylesSideBar.layoutContainer}>
       {/* Sidebar fixa à esquerda */}
-      <div className={styles.sidebarWrapper}>
+      <div className={stylesSideBar.sidebarWrapper}>
         <SideBar />
       </div>
 
       {/* Conteúdo da página */}
       <div className={stylesSideBar.contentWrapper}>
 
-      <div className={globalStyles.container}>
-        <div className={globalStyles.card}>
-          <h2 className={styles.title}>Atualizar Avaliação #{review.id}</h2>
+        <div className={globalStyles.container}>
+          <div className={globalStyles.card}>
+            <h2 className={styles.title}>Atualizar Avaliação #{review.id}</h2>
 
-          {success && <p className={styles.successMessage}>{success}</p>}
-          {error && <ErrorMessage message={error} />}
+            {success && <p className={styles.successMessage}>{success}</p>}
+            {error && <ErrorMessage message={error} />}
 
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <div className={styles.starsWrapper}>
-              <label className={styles.label}>Nota:</label>
-              <StarRating
-                rating={nota}
-                onRatingChange={(newRating) => setNota(newRating)}
-                editable={true}
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.starsWrapper}>
+                <label className={styles.label}>Nota:</label>
+                <StarRating
+                  rating={nota}
+                  onRatingChange={(newRating) => setNota(newRating)}
+                  editable={true}
+                />
+              </div>
+
+              <textarea
+                className={styles.textarea}
+                placeholder="Comentário"
+                value={comentario}
+                onChange={(e) => setComentario(e.target.value)}
               />
-            </div>
 
-            <textarea
-              className={styles.textarea}
-              placeholder="Comentário"
-              value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
-            />
+              <div className={styles.footer}>
+                <Button
+                  type="submit"
+                  className={styles.button}
+                  style={{ backgroundColor: "#4caf50", color: "#fff", borderRadius: "5px" }}
+                >
+                  Atualizar Avaliação
+                </Button>
 
-            <div className={styles.footer}>
-              <Button
-                type="submit"
-                className={styles.button}
-                style={{ backgroundColor: "#4caf50", color: "#fff", borderRadius: "5px" }}
-              >
-                Atualizar Avaliação
-              </Button>
-
-              <Button onClick={() => navigate(-1)} className={styles.buttonCancel}>
-                Cancelar
-              </Button>
-            </div>
-          </form>
+                <Button onClick={() => navigate(-1)} className={styles.buttonCancel}>
+                  Cancelar
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
