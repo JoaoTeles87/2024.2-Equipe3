@@ -12,6 +12,7 @@ type Reserva = {
     status: string;
 };
 
+// constante declarada antes com a refatoração
 const RECURSOS_DISPONIVEIS = [
     ["Cabo USB", "Cabo P2", "Cabo HDMI", "Cabo VGA"],
     ["Extensão", "Microfone", "Mesa de som", "Passador"],
