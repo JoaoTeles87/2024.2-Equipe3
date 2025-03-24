@@ -19,7 +19,7 @@ Feature: Cadastro de usuário no frontend
     And ele preenche o campo de email com "prof.demostenes@example.com"
     And ele preenche o campo de senha com "SecurePassword123"
     And ele preenche o campo de confirmar senha com "SecurePassword123"
-    And ele seleciona a opção "Sim, sou professor" para professor
+    And ele seleciona a opção "Sim" para professor
     And ele preenche o campo SIAPE com "123456"
     And ele clica no botão "Criar"
     Then ele deve ver uma mensagem de sucesso
