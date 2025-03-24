@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "/src/app/home/styles/DeletarReview.module.css";
-import Button from "../../../shared/components/Button";
+import Button from "../../../shared/components/Button/Button";
 import globalStyles from "../../../shared/components/LoginCadastro.module.css";
 
 const DeletarReview = () => {
