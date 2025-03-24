@@ -1,9 +1,8 @@
-//import { useEffect } from "react";
-//import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import styles from "../../../shared/components/SideBar/SideBar.module.css";
-// import Dropdown from 'react-bootstrap/Dropdown';
+import SalaCard from "../components/SalaCard";
+
 
 
 const Reservar = () => {
@@ -96,10 +95,29 @@ const Reservar = () => {
                     {/* Tipo de Sala */}
                     <div style={{ display: "flex", flexDirection: "column" }}>
                         <label>Tipo de Sala</label>
-                        <select value={tipoSala} onChange={(e) => setTipoSala(e.target.value)} style={selectorStyle}>
-                        <option value="Reunião">Reunião</option>
-                        <option value="Auditório">Auditório</option>
+                        <div style={{ position: "relative" }}>
+                        <select
+                            value={tipoSala}
+                            onChange={(e) => setTipoSala(e.target.value)}
+                            style={{ ...selectorStyle, paddingRight: "30px" }}
+                        >
+                            <option value="Reunião">Reunião</option>
+                            <option value="Auditório">Auditório</option>
                         </select>
+                        <span
+                            style={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "55%",
+                            transform: "translateY(-50%)",
+                            pointerEvents: "none",
+                            fontSize: "11px",
+                            color: "#666"
+                            }}
+                        >
+                            ▼
+                        </span>
+                        </div>
                     </div>
 
                     {/* Data */}
@@ -138,15 +156,30 @@ const Reservar = () => {
                     {/* Equipamentos */}
                     <div style={{ display: "flex", flexDirection: "column", position: "relative", minWidth: "250px" }}>
                         <label>Equipamentos</label>
+                        <div style={{ position: "relative", width: "100%", minWidth: "250px" }}>
                         <button
-                        type="button"
-                        onClick={() => setShowEquipamentosDropdown((prev) => !prev)}
-                        style={selectorStyle}
+                            type="button"
+                            onClick={() => setShowEquipamentosDropdown((prev) => !prev)}
+                            style={{ ...selectorStyle, width: "100%", paddingRight: "30px" }}
                         >
                             {equipamentosSelecionados.length > 0
-                                ? `${equipamentosSelecionados.length} selecionado${equipamentosSelecionados.length > 1 ? 's' : ''}`
-                                : "Selecione"}
+                            ? `${equipamentosSelecionados.length} selecionado${equipamentosSelecionados.length > 1 ? 's' : ''}`
+                            : "Selecione"}
                         </button>
+                        <span
+                            style={{
+                            position: "absolute",
+                            right: "12px",
+                            top: "55%",
+                            transform: "translateY(-50%)",
+                            pointerEvents: "none",
+                            fontSize: "11px",
+                            color: "#555",
+                            }}
+                        >
+                            ▼
+                        </span>
+                        </div>
 
                         {showEquipamentosDropdown && (
                         <div
@@ -225,15 +258,11 @@ const Reservar = () => {
                         </div>
                     ) : (
                         salasFiltradas.map((sala) => (
-                            <div key={sala.id} style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}>
-                                <h3>{sala.nome}</h3>
-                                <p><strong>Tipo:</strong> {sala.tipo}</p>
-                                <p><strong>Capacidade:</strong> {sala.lugares} lugares</p>
-                                <p><strong>Andar:</strong> {sala.andar}</p>
-                                <p><strong>Equipamentos:</strong> {sala.equipamentos.join(", ")}</p>
-                                <p><strong>Avaliação:</strong> {sala.average_rating} ⭐ ({sala.review_count} avaliações)</p>
-                                <button onClick={() => alert(`Reservar ${sala.nome}`)}>Reservar</button>
-                            </div>
+                            <SalaCard
+                                key={sala.id}
+                                sala={sala}
+                                onReservar={() => alert(`Reservar ${sala.nome}`)}
+                            />
                         ))
                     )}
                 </div>
