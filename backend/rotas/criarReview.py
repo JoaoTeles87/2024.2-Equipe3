@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from backend.modelo.extensao import db
 from backend.modelo.reviewSala import ReviewSala
 
+
 criar_review_bp = Blueprint("criar_review", __name__)
 
 @criar_review_bp.route("/api/reviews", methods=["POST"])

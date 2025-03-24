@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "/src/app/home/styles/ObterReview.module.css";
 import Button from "../../../shared/components/Button/Button";
 import globalStyles from "../../../shared/components/LoginCadastro.module.css";
-import StarRating from "../../../shared/components/StarRating";
+import StarRating from "../../../shared/components/StarRating/StarRating";
 
 interface Review {
   id: number;

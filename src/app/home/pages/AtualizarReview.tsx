@@ -2,9 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../../shared/components/Button";
 import ErrorMessage from "../../../shared/components/ErrorMessage";
-import StarRating from "../../../shared/components/StarRating";
+import StarRating from "../../../shared/components/StarRating/StarRating";
 import styles from "/src/app/home/styles/AtualizarReview.module.css";
 import globalStyles from "../../../shared/components/LoginCadastro.module.css";
+import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
+import SideBar from "../../../shared/components/SideBar/SideBar";
+
+
 
 interface Review {
   id: number;
@@ -107,45 +111,57 @@ const AtualizarReview = () => {
   }
 
   return (
-    <div className={globalStyles.container}>
-      <div className={globalStyles.card}>
-        <h2 className={styles.title}>Atualizar Avaliação #{review.id}</h2>
 
-        {success && <p className={styles.successMessage}>{success}</p>}
-        {error && <ErrorMessage message={error} />}
-
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.starsWrapper}>
-            <label className={styles.label}>Nota:</label>
-            <StarRating
-              rating={nota}
-              onRatingChange={(newRating) => setNota(newRating)}
-              editable={true}
-            />
-          </div>
-
-          <textarea
-            className={styles.textarea}
-            placeholder="Comentário"
-            value={comentario}
-            onChange={(e) => setComentario(e.target.value)}
-          />
-
-          <div className={styles.footer}>
-            <Button
-              type="submit"
-              className={styles.button}
-              style={{ backgroundColor: "#4caf50", color: "#fff", borderRadius: "5px" }}
-            >
-              Atualizar Avaliação
-            </Button>
-
-            <Button onClick={() => navigate(-1)} className={styles.buttonCancel}>
-              Cancelar
-            </Button>
-          </div>
-        </form>
+    <div className={stylesSideBar.layoutContainer}>
+      {/* Sidebar fixa à esquerda */}
+      <div className={styles.sidebarWrapper}>
+        <SideBar />
       </div>
+
+      {/* Conteúdo da página */}
+      <div className={stylesSideBar.contentWrapper}>
+
+      <div className={globalStyles.container}>
+        <div className={globalStyles.card}>
+          <h2 className={styles.title}>Atualizar Avaliação #{review.id}</h2>
+
+          {success && <p className={styles.successMessage}>{success}</p>}
+          {error && <ErrorMessage message={error} />}
+
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.starsWrapper}>
+              <label className={styles.label}>Nota:</label>
+              <StarRating
+                rating={nota}
+                onRatingChange={(newRating) => setNota(newRating)}
+                editable={true}
+              />
+            </div>
+
+            <textarea
+              className={styles.textarea}
+              placeholder="Comentário"
+              value={comentario}
+              onChange={(e) => setComentario(e.target.value)}
+            />
+
+            <div className={styles.footer}>
+              <Button
+                type="submit"
+                className={styles.button}
+                style={{ backgroundColor: "#4caf50", color: "#fff", borderRadius: "5px" }}
+              >
+                Atualizar Avaliação
+              </Button>
+
+              <Button onClick={() => navigate(-1)} className={styles.buttonCancel}>
+                Cancelar
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     </div>
   );
 };
