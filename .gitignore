@@ -37,3 +37,6 @@ cypress/downloads
 .env.development
 .env.staging
 .env.production
+
+__pycache__/
+*.pyc
