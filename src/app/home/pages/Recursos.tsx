@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import styles from "../../../shared/components/SideBar/SideBar.module.css";
-// import { useNavigate } from "react-router-dom";
-// import Button from "../../../shared/components/Button";
-// import Input from "../../../shared/components/Input";
-// import ErrorMessage from "../../../shared/components/ErrorMessage";
-//import styles from "../styles/Cadastro.module.css"; 
-//import globalStyles from "../../../shared/components/LoginCadastro.module.css";
 
 type Reserva = {
     id: number;
@@ -183,7 +177,7 @@ const SolicitacaoRecursos = () => {
 
             {/* Conteúdo da página */}
             <div className={styles.contentWrapper}>
-                <div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
+                <div style={{ padding: "20px", maxWidth: "800px", marginLeft: "20px" }}> {/* Ajuste aqui */}
                     <h2 style={{ marginBottom: "20px", fontSize: "24px" }}>Próximas Reservas</h2>
 
                     {reservasAtivas.length > 0 ? (
