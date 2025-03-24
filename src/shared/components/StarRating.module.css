@@ -1,0 +1,26 @@
+.starContainer {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;
+  gap: 8px;
+  font-size: 32px;
+  margin: 10px 0; /* Espaçamento vertical opcional */
+}
+
+.star {
+  color: #ccc;
+  cursor: default;
+  transition: color 0.3s;
+}
+
+.filled {
+  color: #ffb400;
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.editable:hover {
+  color: #ffa500;
+}
