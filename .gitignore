@@ -38,5 +38,18 @@ cypress/downloads
 .env.staging
 .env.production
 
-__pycache__/
+# Ambiente virtual
+venv/
+.env/
+
+# Arquivos de compilação
+_pychache_/
 *.pyc
+*.pyo
+
+# Vscode config
+.vscode/
+.idea/
+
+# Logs
+*.temp

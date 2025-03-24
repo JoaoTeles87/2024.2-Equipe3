@@ -1,0 +1,106 @@
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .detailItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px;
+    background-color: #fff;
+    border-radius: 8px;
+    word-wrap: break-word;
+  }
+  
+  .label {
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .comentario {
+    max-height: 200px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 25px;
+    gap: 15px; /* Espaçamento entre os botões */
+  }
+  
+  .button {
+    font-size: 16px;
+    padding: 12px 72px;
+    margin: 0;
+  }
+  
+  
+  .error {
+    color: #d32f2f;
+    font-weight: bold;
+    margin-bottom: 20px;.container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+    }
+    
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    
+    h2 {
+      text-align: center;
+    }
+    
+    .comentario {
+      margin-top: 15px;
+    }
+    
+    text-align: center;
+  }
+
+  .starsWrapper {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #fff;
+  }
+  
+  .layoutContainer {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .sidebarWrapper {
+    width: 250px;
+  }
+  
+  .contentWrapper {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  

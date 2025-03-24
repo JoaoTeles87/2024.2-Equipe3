@@ -33,6 +33,9 @@ Clone the repository and install the dependencies by running the following comma
 
 ```
 npm install
+npm install react-bootstrap bootstrap
+npm install react-icons --save
+
 ```
 
 ### First time running ?
@@ -130,7 +133,12 @@ python -m venv venv
 ```
 Ative a venv
 ```
+Para windows:
 venv\Scripts\activate
+
+Para MacOS:
+source venv/bin/activate
+
 ```
 e agora você deve instalar todas as dependencias do projeto 
 
