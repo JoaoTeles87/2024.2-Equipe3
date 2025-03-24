@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import styles from "../../../shared/components/SideBar/SideBar.module.css";
+import ConfirmacaoPopup from "../../../shared/components/ConfirmacaoPopup/ConfirmacaoPopup";
 
 type Reserva = {
     id: number;
@@ -34,10 +35,9 @@ const Manutencoes = () => {
         [key: number]: SolicitacaoManutencao;
     }>({});
     const [descricaoPorReserva, setDescricaoPorReserva] = useState<{ [key: number]: string }>({});
-    const [editando, setEditando] = useState<number | null>(null); // ID da reserva em edição
-    const [reservaParaExcluir, setReservaParaExcluir] = useState<number | null>(null); // ID da reserva a ser excluída
+    const [editando, setEditando] = useState<number | null>(null);
+    const [reservaParaExcluir, setReservaParaExcluir] = useState<number | null>(null);
 
-    // Supondo que o ID do professor logado seja 3 (substitua pelo valor real)
     const professorId = 3;
 
     useEffect(() => {
@@ -69,7 +69,7 @@ const Manutencoes = () => {
                     ...prev,
                     [reservaId]: { id: resultado.id, reserva_id: reservaId, descricao },
                 }));
-                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" })); // Limpa o campo de texto
+                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" }));
             } else {
                 alert(`Erro: ${resultado.erro || "Erro ao criar solicitação"}`);
             }
@@ -101,8 +101,8 @@ const Manutencoes = () => {
                     ...prev,
                     [reservaId]: { ...prev[reservaId], descricao },
                 }));
-                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" })); // Limpa o campo de texto
-                setEditando(null); // Sai do modo de edição
+                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" }));
+                setEditando(null);
             } else {
                 alert(`Erro: ${resultado.erro || "Erro ao editar solicitação"}`);
             }
@@ -126,8 +126,8 @@ const Manutencoes = () => {
                     delete newSolicitacoes[reservaId];
                     return newSolicitacoes;
                 });
-                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" })); // Limpa o campo de texto
-                setEditando(null); // Sai do modo de edição
+                setDescricaoPorReserva((prev) => ({ ...prev, [reservaId]: "" }));
+                setEditando(null);
             } else {
                 const resultado = await resposta.json();
                 alert(`Erro: ${resultado.erro || "Erro ao excluir solicitação"}`);
@@ -136,17 +136,15 @@ const Manutencoes = () => {
             console.error("Erro ao excluir solicitação:", erro);
             alert("Erro ao excluir solicitação. Verifique a conexão com o servidor.");
         }
-        setReservaParaExcluir(null); // Fecha o popup após a exclusão
+        setReservaParaExcluir(null);
     };
 
     return (
         <div className={styles.layoutContainer}>
-            {/* Sidebar fixa à esquerda */}
             <div className={styles.sidebarWrapper}>
                 <SideBar />
             </div>
 
-            {/* Conteúdo da página */}
             <div className={styles.contentWrapper}>
                 <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>Solicitação de Manutenções</h1>
                 {reservasFinalizadas.length > 0 ? (
@@ -162,7 +160,7 @@ const Manutencoes = () => {
                                     <div style={{ display: "flex", gap: "10px" }}>
                                         <button
                                             onClick={() => {
-                                                setEditando(reserva.id); // Entra no modo de edição
+                                                setEditando(reserva.id);
                                                 setDescricaoPorReserva((prev) => ({ ...prev, [reserva.id]: solicitacoesManutencao[reserva.id].descricao }));
                                             }}
                                             style={{
@@ -210,7 +208,7 @@ const Manutencoes = () => {
                                                 : handleSolicitarManutencao(reserva.id)
                                         }
                                         style={{
-                                            width: "auto", // Largura automática
+                                            width: "auto",
                                             padding: "10px 20px",
                                             background: "#555",
                                             color: "white",
@@ -230,60 +228,13 @@ const Manutencoes = () => {
                     <p>Nenhuma reserva finalizada encontrada.</p>
                 )}
 
-                {/* Popup de confirmação de exclusão */}
                 {reservaParaExcluir !== null && (
-                    <div style={{
-                        position: "fixed",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}>
-                        <div style={{
-                            backgroundColor: "white",
-                            padding: "20px",
-                            borderRadius: "8px",
-                            textAlign: "center",
-                        }}>
-                            <p style={{ marginBottom: "20px", fontSize: "18px" }}>
-                                Tem certeza que deseja excluir essa solicitação? Essa ação é irreversível.
-                            </p>
-                            <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-                                <button
-                                    onClick={() => setReservaParaExcluir(null)} // Fecha o popup sem excluir
-                                    style={{
-                                        padding: "10px 20px",
-                                        background: "#ccc",
-                                        color: "black",
-                                        border: "none",
-                                        borderRadius: "4px",
-                                        cursor: "pointer",
-                                        fontSize: "16px",
-                                    }}
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    onClick={() => handleExcluirManutencao(reservaParaExcluir)} // Executa a exclusão
-                                    style={{
-                                        padding: "10px 20px",
-                                        background: "#f44336",
-                                        color: "white",
-                                        border: "none",
-                                        borderRadius: "4px",
-                                        cursor: "pointer",
-                                        fontSize: "16px",
-                                    }}
-                                >
-                                    Excluir Solicitação
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <ConfirmacaoPopup
+                        mensagem="Tem certeza que deseja excluir essa solicitação? Essa ação é irreversível."
+                        onCancel={() => setReservaParaExcluir(null)}
+                        onConfirm={() => handleExcluirManutencao(reservaParaExcluir)}
+                        textoConfirmar="Excluir Solicitação"
+                    />
                 )}
             </div>
         </div>
