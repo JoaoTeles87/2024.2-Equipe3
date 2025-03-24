@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import styles from "../../../shared/components/SideBar/SideBar.module.css";
+import ConfirmacaoPopup from "../../../shared/components/ConfirmacaoPopup/ConfirmacaoPopup";
 
 type Reserva = {
     id: number;
@@ -10,6 +11,14 @@ type Reserva = {
     end_time: string;
     status: string;
 };
+
+const RECURSOS_DISPONIVEIS = [
+    ["Cabo USB", "Cabo P2", "Cabo HDMI", "Cabo VGA"],
+    ["Extensão", "Microfone", "Mesa de som", "Passador"],
+    ["Televisor", "Projetor", "Carregador", "Pen Drive"],
+    ["Mouse", "Teclado", "Monitor", "USB-C HDMI"],
+    ["Cafeteira", "Gelágua", "Apagador", "Piloto"],
+];
 
 const PegarReservaAtiva = async (): Promise<Reserva[]> => {
     try {
@@ -30,15 +39,15 @@ const SolicitacaoRecursos = () => {
     const [observacoes, setObservacoes] = useState("");
     const [solicitacoesCriadas, setSolicitacoesCriadas] = useState<{
         [key: number]: {
-            id: number; // Adicionado o ID da solicitação
+            id: number;
             recursos: string;
             itens_nao_listados: string;
             observacoes: string;
             reserva_id: number;
         }
     }>({});
-    const [showConfirmacaoExclusao, setShowConfirmacaoExclusao] = useState(false); // Estado para controlar o popup
-    const [editando, setEditando] = useState(false); // Estado para controlar o modo de edição
+    const [showConfirmacaoExclusao, setShowConfirmacaoExclusao] = useState(false);
+    const [editando, setEditando] = useState(false);
 
     useEffect(() => {
         const fetchReservas = async () => {
@@ -56,7 +65,7 @@ const SolicitacaoRecursos = () => {
         setSelectedItems([]);
         setOutrosItens("");
         setObservacoes("");
-        setEditando(false); // Sai do modo de edição ao trocar de reserva
+        setEditando(false);
     };
 
     const handleSubmit = async () => {
@@ -75,7 +84,6 @@ const SolicitacaoRecursos = () => {
         try {
             let resposta;
             if (editando && solicitacoesCriadas[reservaSelecionada.id]) {
-                // Modo de edição: envia uma requisição PUT para atualizar a solicitação
                 const idSolicitacao = solicitacoesCriadas[reservaSelecionada.id].id;
                 resposta = await fetch(`http://127.0.0.1:5000/solicitacoes/recursos/${idSolicitacao}`, {
                     method: "PUT",
@@ -86,10 +94,9 @@ const SolicitacaoRecursos = () => {
                 const resultado = await resposta.json();
                 if (resposta.ok) {
                     alert("Solicitação de recursos alterada.");
-                    // Atualiza o estado com os novos dados
                     setSolicitacoesCriadas((prev) => ({
                         ...prev,
-                        [reservaSelecionada.id]: { ...dados, id: idSolicitacao }, // Mantém o mesmo ID
+                        [reservaSelecionada.id]: { ...dados, id: idSolicitacao },
                     }));
                     setSelectedItems([]);
                     setOutrosItens("");
@@ -99,7 +106,6 @@ const SolicitacaoRecursos = () => {
                     alert(`Erro: ${resultado.erro || "Erro ao editar solicitação"}`);
                 }
             } else {
-                // Modo de criação: envia uma requisição POST para criar uma nova solicitação
                 resposta = await fetch("http://127.0.0.1:5000/solicitacoes/recursos", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -111,7 +117,7 @@ const SolicitacaoRecursos = () => {
                     alert("Parabéns, sua solicitação de recursos foi criada!");
                     setSolicitacoesCriadas((prev) => ({
                         ...prev,
-                        [reservaSelecionada.id]: { ...dados, id: resultado.id }, // Salva o novo ID
+                        [reservaSelecionada.id]: { ...dados, id: resultado.id },
                     }));
                     setSelectedItems([]);
                     setOutrosItens("");
@@ -136,7 +142,6 @@ const SolicitacaoRecursos = () => {
 
                 if (resposta.ok) {
                     alert("Solicitação excluída com sucesso!");
-                    // Remove a solicitação do estado
                     setSolicitacoesCriadas((prev) => {
                         const newSolicitacoes = { ...prev };
                         delete newSolicitacoes[reservaSelecionada.id];
@@ -151,7 +156,7 @@ const SolicitacaoRecursos = () => {
                 alert("Erro ao excluir solicitação. Verifique a conexão com o servidor.");
             }
         }
-        setShowConfirmacaoExclusao(false); // Fecha o popup após a exclusão
+        setShowConfirmacaoExclusao(false);
     };
 
     const handleAlterar = () => {
@@ -160,7 +165,7 @@ const SolicitacaoRecursos = () => {
             setSelectedItems(solicitacao.recursos.split(", "));
             setOutrosItens(solicitacao.itens_nao_listados);
             setObservacoes(solicitacao.observacoes);
-            setEditando(true); // Entra no modo de edição
+            setEditando(true);
         } else {
             alert("Solicitação não encontrada.");
         }
@@ -170,14 +175,12 @@ const SolicitacaoRecursos = () => {
 
     return (
         <div className={styles.layoutContainer}>
-            {/* Sidebar fixa à esquerda */}
             <div className={styles.sidebarWrapper}>
                 <SideBar />
             </div>
 
-            {/* Conteúdo da página */}
             <div className={styles.contentWrapper}>
-                <div style={{ padding: "20px", maxWidth: "800px", marginLeft: "20px" }}> {/* Ajuste aqui */}
+                <div style={{ padding: "20px", maxWidth: "800px", marginLeft: "20px" }}>
                     <h2 style={{ marginBottom: "20px", fontSize: "24px" }}>Próximas Reservas</h2>
 
                     {reservasAtivas.length > 0 ? (
@@ -209,7 +212,7 @@ const SolicitacaoRecursos = () => {
                                     <h3 style={{ marginBottom: "10px", fontSize: "18px" }}>Itens não listados: {solicitacaoCriada.itens_nao_listados || "Nenhum"}</h3>
                                     <h3 style={{ marginBottom: "20px", fontSize: "18px" }}>Quantidades e observações: {solicitacaoCriada.observacoes || "Nenhuma"}</h3>
                                     <button
-                                        onClick={() => setShowConfirmacaoExclusao(true)} // Abre o popup de confirmação
+                                        onClick={() => setShowConfirmacaoExclusao(true)}
                                         style={{ marginRight: "10px", padding: "10px 20px", fontSize: "16px" }}
                                     >
                                         Excluir
@@ -219,13 +222,7 @@ const SolicitacaoRecursos = () => {
                             ) : (
                                 <>
                                     <div style={{ display: "flex", gap: "20px", flexWrap: "wrap", marginBottom: "20px" }}>
-                                        {[
-                                            ["Cabo USB", "Cabo P2", "Cabo HDMI", "Cabo VGA"],
-                                            ["Extensão", "Microfone", "Mesa de som", "Passador"],
-                                            ["Televisor", "Projetor", "Carregador", "Pen Drive"],
-                                            ["Mouse", "Teclado", "Monitor", "USB-C HDMI"],
-                                            ["Cafeteira", "Gelágua", "Apagador", "Piloto"],
-                                        ].map((coluna, colIndex) => (
+                                        {RECURSOS_DISPONIVEIS.map((coluna, colIndex) => (
                                             <div key={colIndex} style={{ flex: "1" }}>
                                                 {coluna.map((item) => (
                                                     <label key={item} style={{ display: "block", marginBottom: "10px", fontSize: "16px" }}>
@@ -282,58 +279,13 @@ const SolicitacaoRecursos = () => {
                         <p style={{ fontSize: "16px" }}>Nenhuma reserva ativa encontrada.</p>
                     )}
 
-                    {/* Popup de confirmação de exclusão */}
                     {showConfirmacaoExclusao && (
-                        <div style={{
-                            position: "fixed",
-                            top: "0",
-                            left: "0",
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}>
-                            <div style={{
-                                backgroundColor: "white",
-                                padding: "20px",
-                                borderRadius: "8px",
-                                textAlign: "center",
-                            }}>
-                                <p style={{ marginBottom: "20px", fontSize: "18px" }}>Tem certeza que deseja excluir essa solicitação?</p>
-                                <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-                                    <button
-                                        onClick={() => setShowConfirmacaoExclusao(false)} // Fecha o popup sem excluir
-                                        style={{
-                                            padding: "10px 20px",
-                                            background: "#ccc",
-                                            color: "black",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            cursor: "pointer",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        Cancelar
-                                    </button>
-                                    <button
-                                        onClick={handleExcluir} // Executa a exclusão
-                                        style={{
-                                            padding: "10px 20px",
-                                            background: "#ff4d4d",
-                                            color: "white",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            cursor: "pointer",
-                                            fontSize: "16px",
-                                        }}
-                                    >
-                                        Excluir Solicitação
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <ConfirmacaoPopup
+                            mensagem="Tem certeza que deseja excluir essa solicitação?"
+                            onCancel={() => setShowConfirmacaoExclusao(false)}
+                            onConfirm={handleExcluir}
+                            textoConfirmar="Excluir Solicitação"
+                        />
                     )}
                 </div>
             </div>
