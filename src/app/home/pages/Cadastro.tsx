@@ -64,9 +64,9 @@ const Cadastro = () => {
                     </div>
                 ) : (
                     <form onSubmit={handleCadastro} className={styles.form}>
-                        <Input type="text" placeholder="Nome" value={nome} onValueChange={setNome} />
-                        <Input type="text" placeholder="CPF" value={cpf} onValueChange={setCpf} />
-                        <Input type="email" placeholder="Email" value={email} onValueChange={setEmail} />
+                        <Input type="text" required max='100' placeholder="Nome" value={nome} onValueChange={setNome} />
+                        <Input type="text" max='14' min='14' placeholder="CPF" value={cpf} onValueChange={setCpf} />
+                        <Input type="email" max='80' placeholder="Email" value={email} onValueChange={setEmail} />
                         <Input type="password" placeholder="Senha" value={senha} onValueChange={setSenha} required />
                         <Input type="password" placeholder="Confirmar senha" value={confirmarSenha} onValueChange={setConfirmarSenha} required />
 

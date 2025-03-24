@@ -48,8 +48,8 @@ const Login = () => {
                 {error && <ErrorMessage message={error} />}
 
                 <form onSubmit={handleLogin} className={styles.form}>
-                    <Input type="email" placeholder="Email" value={email} onValueChange={setEmail} />
-                    <Input type="password" placeholder="Senha" value={senha} onValueChange={setPassword} />
+                    <Input type="email" max='80' placeholder="Email" value={email} onValueChange={setEmail} />
+                    <Input type="password" max='100' placeholder="Senha" value={senha} onValueChange={setPassword} />
                     <Button type="submit" disabled={loading} style={{ backgroundColor: "#6200ea", color: "#fff" }}>
                         {loading ? <Loader /> : "Entrar"}
                     </Button>

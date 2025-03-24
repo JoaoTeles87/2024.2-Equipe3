@@ -57,8 +57,9 @@ When("ele clica no botão {string}", (buttonText: string) => {
 });
 
 When("ele clica no link {string}", (linkText: string) => {
-  cy.contains("span.link", linkText).click();
+  cy.contains("span", linkText).click();
 });
+
 
 Then("ele deve ver uma mensagem de sucesso", () => {
   cy.get(successMessageContainer).should("be.visible");
