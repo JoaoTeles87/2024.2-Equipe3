@@ -149,7 +149,7 @@ const Manutencoes = () => {
                 <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>Solicitação de Manutenções</h1>
                 {reservasFinalizadas.length > 0 ? (
                     reservasFinalizadas.map((reserva) => (
-                        <div key={reserva.id} style={{ marginBottom: "20px", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
+                        <div key={reserva.id} style={{ marginBottom: "20px", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }} className="reserva-card">
                             <h3 style={{ fontSize: "20px", fontWeight: "bold", marginBottom: "10px" }}>Sala {reserva.sala_id}</h3>
                             <p style={{ marginBottom: "5px" }}>Data: {reserva.data} | Hora: {reserva.start_time} às {reserva.end_time}</p>
 
