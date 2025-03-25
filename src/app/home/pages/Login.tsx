@@ -28,7 +28,7 @@ const Login = () => {
                 return;
             }
     
-            navigate("/reservas");
+            navigate("/perfil");
         } catch (err) {
             setError("Falha no login. Verifique suas credenciais.");
         } finally {

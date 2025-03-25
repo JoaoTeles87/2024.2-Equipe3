@@ -1,18 +1,19 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 from flask_cors import CORS
 
 perfil_bp = Blueprint("perfil", __name__)
 CORS(perfil_bp)
 
-usuario = {
+# Mock do perfil do usuário
+mock_usuario = {
     "id": 1,
+    "nome": "Professor Teste",
     "email": "teste@email.com",
-    "nome": "esse caralho Teste",
-    "cpf": "000.000.000-00",
+    "cpf": "123.456.789-00",
     "professor": "S",
     "siape": "123456"
 }
 
-@perfil_bp.route("/api/perfil", methods=["GET"])  # Alterado para GET
+@perfil_bp.route("/api/perfil", methods=["POST"])
 def obter_perfil():
-    return jsonify(usuario), 200
+    return jsonify(mock_usuario), 200
