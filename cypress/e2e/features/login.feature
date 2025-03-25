@@ -6,7 +6,7 @@ Feature: Login de usuário no frontend
     And ele preenche o campo de senha com "SecurePassword123"
     And ele clica no botão "Entrar"
     Then ele deve ser redirecionado para a página principal
-    
+    And ele deve ver seu email "demostenes@example.com" na tela
 
   Scenario: Login falha com senha incorreta
     Given o usuário está na página de login

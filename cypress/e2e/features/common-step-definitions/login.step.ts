@@ -19,17 +19,17 @@ Given("o usuário está na página de login", () => {
   cy.contains("Sistema de Agendamento e").should("be.visible");
 });
 
-// When("ele preenche o campo de email com {string}", (email: string) => {
-//   cy.get(emailInput).clear().type(email);
-// });
+When("ele preenche o campo de email com {string}", (email: string) => {
+  cy.get(emailInput).clear().type(email);
+});
 
-// When("ele preenche o campo de senha com {string}", (password: string) => {
-//   cy.get(passwordInput).clear().type(password);
-// });
+When("ele preenche o campo de senha com {string}", (password: string) => {
+  cy.get(passwordInput).clear().type(password);
+});
 
-// When("ele clica no botão {string}", (buttonText: string) => {
-//   cy.get(loginButton).contains(buttonText).click();
-// });
+When("ele clica no botão {string}", (buttonText: string) => {
+  cy.get(loginButton).contains(buttonText).click();
+});
 
 When("ele clica no botão {string} sem preencher os campos", (buttonText: string) => {
   cy.get(emailInput).clear();
@@ -38,9 +38,8 @@ When("ele clica no botão {string} sem preencher os campos", (buttonText: string
 });
 
 When("ele clica no link {string}", (linkText: string) => {
-  cy.contains("span", linkText).click();
+  cy.contains("span.link", linkText).click();
 });
-
 
 Then("ele deve ser redirecionado para a página principal", () => {
   cy.url().should("include", homeUrl);
