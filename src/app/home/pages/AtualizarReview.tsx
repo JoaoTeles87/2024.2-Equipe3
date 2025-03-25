@@ -33,7 +33,7 @@ const AtualizarReview = () => {
   useEffect(() => {
     const fetchReview = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/reviews/${id}`);
+        const response = await fetch(`http://127.0.0.1:5000/api/reviews/${id}`);
 
         if (!response.ok) {
           const data = await response.json();

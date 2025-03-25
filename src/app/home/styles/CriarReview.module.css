@@ -15,6 +15,15 @@
     margin-bottom: 10px;
     text-align: center;
   }
+
+  .errorMessage {
+    color: red;
+    font-size: 16px;
+    display: block; /* Garantir que o erro é exibido */
+    visibility: visible; /* Certificar-se de que o erro não está invisível */
+    text-align: center;
+    margin-bottom: 10px;
+}
   
   .form {
     display: flex;

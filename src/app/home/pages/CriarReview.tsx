@@ -9,8 +9,6 @@ import StarRating from "../../../shared/components/StarRating/StarRating";
 import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
 import SideBar from "../../../shared/components/SideBar/SideBar";
 
-
-
 const AvaliarSala = () => {
     const [reservaId, setReservaId] = useState("");
     const [salaId, setSalaId] = useState("");
@@ -25,8 +23,20 @@ const AvaliarSala = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!reservaId || !salaId || !usuarioId || !nota) {
-            setError("Por favor, preencha todos os campos obrigatórios.");
+        if (!reservaId) {
+            setError("A ID da Reserva é obrigatória.");
+            return;
+        }
+        else if (!salaId) {
+            setError("A ID da Sala é obrigatória.");
+            return;
+        }
+        else if (!usuarioId) {
+            setError("A ID do Usuário é obrigatória.");
+            return;
+        }
+        else if (!nota) {
+            setError("A Nota é obrigatória.");
             return;
         }
 
@@ -38,8 +48,10 @@ const AvaliarSala = () => {
             comentario,
         };
 
+        console.log(payload);
+
         try {
-            const response = await fetch("http://localhost:5000/api/reviews", {
+            const response = await fetch("http://127.0.0.1:5000/api/reviews", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,27 +103,26 @@ const AvaliarSala = () => {
                                 placeholder="ID da Reserva"
                                 value={reservaId}
                                 onValueChange={setReservaId}
-                                required
                             />
                             <Input
                                 type="text"
                                 placeholder="ID da Sala"
                                 value={salaId}
                                 onValueChange={setSalaId}
-                                required
                             />
                             <Input
                                 type="text"
                                 placeholder="ID do Usuário"
                                 value={usuarioId}
                                 onValueChange={setUsuarioId}
-                                required
                             />
                             <div className={styles.starsWrapper}>
                                 <label className={styles.label}>Nota:</label>
                                 <StarRating
                                     rating={parseInt(nota) || 0}
-                                    onRatingChange={(newRating) => setNota(newRating.toString())}
+                                    onRatingChange={(newRating) => {
+                                        setNota(newRating.toString());
+                                    }}
                                     editable={true}
                                 />
                             </div>
