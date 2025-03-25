@@ -28,7 +28,7 @@ const Login = () => {
                 return;
             }
     
-            navigate("/reservas");
+            navigate("/perfil");
         } catch (err) {
             setError("Falha no login. Verifique suas credenciais.");
         } finally {
@@ -45,11 +45,15 @@ const Login = () => {
                     Gerenciamento Acadêmico Automático
                 </p>
 
-                {error && <ErrorMessage message={error} />}
+                {error && (
+                    <div className="error-message" data-testid="error-message">
+                        <ErrorMessage message={error} />
+                    </div>
+                )}
 
                 <form onSubmit={handleLogin} className={styles.form}>
-                    <Input type="email" max='80' placeholder="Email" value={email} onValueChange={setEmail} />
-                    <Input type="password" max='100' placeholder="Senha" value={senha} onValueChange={setPassword} />
+                    <Input type="email" placeholder="Email" value={email} onValueChange={setEmail} />
+                    <Input type="password" placeholder="Senha" value={senha} onValueChange={setPassword} />
                     <Button type="submit" disabled={loading} style={{ backgroundColor: "#6200ea", color: "#fff" }}>
                         {loading ? <Loader /> : "Entrar"}
                     </Button>

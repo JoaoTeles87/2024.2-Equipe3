@@ -81,7 +81,7 @@ const AtualizarReview = () => {
       setError("");
 
       setTimeout(() => {
-        navigate(`/avaliacoes/reviews/${id}`); // redireciona para o detalhe da review
+        navigate(`/avaliacoes/${id}`); // redireciona para o detalhe da review
       }, 2000);
 
     } catch (err) {

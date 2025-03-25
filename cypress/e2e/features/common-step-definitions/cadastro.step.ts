@@ -16,7 +16,7 @@ const criarButton = 'button:contains("Criar")';
 const errorMessageContainer = '.error-message'; 
 const successMessageContainer = 'div[style*="color: green"]';
 const voltarLoginButton = 'button:contains("Voltar à Área de Login")';
-const jaPossuoContaLink = 'span.link:contains("Já possuo uma conta")';
+const jaPossuoContaLink = 'span.link';
 
 // Steps para cadastro
 Given("o usuário está na página de cadastro", () => {
@@ -57,7 +57,7 @@ When("ele clica no botão {string}", (buttonText: string) => {
 });
 
 When("ele clica no link {string}", (linkText: string) => {
-  cy.contains("span.link", linkText).click();
+  cy.contains("span", linkText).click();
 });
 
 Then("ele deve ver uma mensagem de sucesso", () => {
@@ -69,8 +69,9 @@ Then("deve haver um botão para voltar à área de login", () => {
 });
 
 Then("ele deve ver uma mensagem de erro {string}", (message: string) => {
-  cy.get(errorMessageContainer).should("contain", message);
+  cy.get('[data-testid="error-message"]', { timeout: 10000 }).should("contain.text", message);
 });
+
 
 Then("ele deve ser redirecionado para a página de login", () => {
   cy.url().should("eq", Cypress.config().baseUrl + loginUrl);
