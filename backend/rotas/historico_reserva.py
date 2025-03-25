@@ -1,44 +1,76 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import CORS
 
 historico_reservas_bp = Blueprint("historico_reservas", __name__)
+CORS(historico_reservas_bp)
 
-# Simulação de dados do usuário autenticado
-usuarios = [
-    {"id": 1, "email": "joao@email.com", "nome": "João"},
-    {"id": 2, "email": "maria@email.com", "nome": "Maria"}
+# Mock de dados com mensagens e avaliações
+mock_reservas = [
+    {
+        "id": 1,
+        "usuario_id": 1,
+        "sala": {
+            "id": 1,
+            "nome": "Sala E005",
+            "tipo": "Laboratório",
+            "lugares": 30
+        },
+        "data": "2024-03-25",
+        "start_time": "14:00",
+        "end_time": "16:00",
+        "status": "inativa",
+        "comentario": "Ótima sala, muito bem equipada!", 
+        "avaliacao": 5
+    },
+    {
+        "id": 2,
+        "usuario_id": 1,
+        "sala": {
+            "id": 2,
+            "nome": "Sala E002",
+            "tipo": "Auditório",
+            "lugares": 50
+        },
+        "data": "2024-03-26",
+        "start_time": "10:00",
+        "end_time": "12:00",
+        "status": "inativa",
+        "comentario": "Bom espaço, mas o som não estava muito bom.",  
+        "avaliacao": 3
+    }
 ]
 
-# Lista de reservas, com algumas ativas e outras inativas
-reservas = [
-    {"id": 1, "usuario_id": 1, "sala": {"nome": "Sala A"}, "data": "2025-01-15", "horario_inicio": "10:00", "horario_fim": "12:00", "ativa": True},
-    {"id": 2, "usuario_id": 1, "sala": {"nome": "Sala B"}, "data": "2025-01-16", "horario_inicio": "14:00", "horario_fim": "16:00", "ativa": False},
-    {"id": 3, "usuario_id": 2, "sala": {"nome": "Sala C"}, "data": "2025-01-17", "horario_inicio": "09:00", "horario_fim": "11:00", "ativa": False}
-]
-
-@historico_reservas_bp.route("/api/reservas/historico", methods=["POST"])
-def consultar_historico_reservas():
-    # Obtém o email do usuário autenticado (simulando um token JWT, por exemplo)
-    email_usuario = request.json.get("email")  
-
-    # Busca o usuário na lista de usuários simulada
-    usuario = next((u for u in usuarios if u["email"] == email_usuario), None)
+@historico_reservas_bp.route("/api/reservas/historico/<int:usuario_id>", methods=["GET"])
+def obter_historico_reservas(usuario_id):
+    print(f"Rota GET /api/reservas/historico/{usuario_id} foi acessada!")
     
-    if not usuario:
-        return jsonify({"error": "Usuário não encontrado."}), 404
+    try:
+        # Filtra reservas inativas do usuário
+        historico = [
+            {
+                "id": r["id"],
+                "sala": r["sala"],
+                "data": r["data"],
+                "start_time": r["start_time"],
+                "end_time": r["end_time"],
+                "horario": f"{r['start_time']} às {r['end_time']}",  
+                "status": r["status"],
+                "avaliacao": r.get("avaliacao", 0), 
+                "comentario": r.get("comentario", "")  
+            }
+            for r in mock_reservas 
+            if r["usuario_id"] == usuario_id and r["status"] == "inativa"
+        ]
 
-    # Filtra as reservas do usuário autenticado que são históricas (não ativas)
-    reservas_historico = [
-        {
-            "id": r["id"],
-            "sala": r["sala"]["nome"],
-            "data": r["data"],
-            "horario_inicio": r["horario_inicio"],
-            "horario_fim": r["horario_fim"]
-        }
-        for r in reservas if r["usuario_id"] == usuario["id"] and not r["ativa"]
-    ]
+        return jsonify({
+            "message": "Histórico encontrado com sucesso",
+            "total": len(historico),
+            "historico": historico
+        }), 200
 
-    if not reservas_historico:
-        return jsonify({"message": "Nenhuma reserva histórica encontrada."}), 200
-
-    return jsonify(reservas_historico), 200
+    except Exception as e:
+        print(f"Erro ao obter histórico: {str(e)}")
+        return jsonify({
+            "error": "Erro interno ao buscar histórico",
+            "detalhes": str(e)
+        }), 500

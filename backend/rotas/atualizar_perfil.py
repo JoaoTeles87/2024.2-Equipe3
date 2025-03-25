@@ -1,7 +1,18 @@
 from flask import Blueprint, jsonify, request
+from flask_cors import CORS
 import re
 
-# Simulação de dados do usuário autenticado
+atualizar_perfil_bp = Blueprint("atualizar_perfil", __name__)
+
+CORS(atualizar_perfil_bp, resources={
+    r"/api/perfil": {
+        "origins": "*",
+        "methods": ["PUT", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
+
+# Mock user data
 usuario = {
     "email": "teste@email.com",
     "nome": "Usuário Teste",
@@ -11,68 +22,79 @@ usuario = {
     "siape": "987654"
 }
 
-# Função para validar um CPF verdadeiro
 def validar_cpf(cpf):
-    cpf = re.sub(r"\D", "", cpf)  # Remove pontos e traços
+    cpf = re.sub(r"\D", "", cpf)  # Remove non-digit characters
+    
+    # Check if all digits are the same or invalid length
+    if len(cpf) != 11 or all(d == cpf[0] for d in cpf):
+        return False
 
-    if len(cpf) != 11 or cpf in [str(i) * 11 for i in range(10)]:
-        return False  # CPFs com todos os números iguais são inválidos
-
-    # Cálculo do primeiro dígito verificador
+    # Calculate first verification digit
     soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
     digito1 = (soma * 10) % 11
     digito1 = 0 if digito1 == 10 else digito1
 
-    # Cálculo do segundo dígito verificador
+    # Calculate second verification digit
     soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
     digito2 = (soma * 10) % 11
     digito2 = 0 if digito2 == 10 else digito2
 
     return cpf[-2:] == f"{digito1}{digito2}"
 
-# Função para validar o nome
 def validar_nome(nome):
-    return bool(re.match(r"^[A-Za-zÀ-ÿ\s]+$", nome)) and len(nome) > 1
+    """Validate name contains only letters and spaces"""
+    return bool(re.match(r"^[A-Za-zÀ-ÿ\s]{2,}$", nome))
 
-# Criando o Blueprint para a atualização do perfil
-atualizar_perfil_bp = Blueprint("atualizar_perfil", __name__)
-
-@atualizar_perfil_bp.route("/api/perfil", methods=["PUT"])
+@atualizar_perfil_bp.route("/api/perfil", methods=["PUT", "OPTIONS"])
 def atualizar_perfil():
-    data = request.get_json()
+    if request.method == "OPTIONS":
+        return jsonify({"status": "ok"}), 200
 
+    data = request.get_json()
     if not data:
         return jsonify({"error": "Nenhum dado enviado."}), 400
 
-    # Obtém os campos enviados na requisição
-    nome = data.get("nome")
-    cpf = data.get("cpf")
-    email = data.get("email")
-    nova_senha = data.get("nova_senha")
+    # Lista de campos permitidos para atualização
+    campos_permitidos = ['nome', 'email', 'cpf', 'nova_senha', 'siape']
+    campos_atualizados = {}
 
-    # Valida o CPF
-    if not cpf:
-        return jsonify({"error": "O campo 'cpf' é obrigatório."}), 400
-    if not validar_cpf(cpf):
-        return jsonify({"error": "O CPF fornecido é inválido."}), 400
+    # Verifica e valida cada campo que foi enviado
+    if 'nome' in data:
+        if not validar_nome(data['nome']):
+            return jsonify({
+                "error": "Nome inválido. Deve conter apenas letras e espaços, com mínimo 2 caracteres."
+            }), 400
+        campos_atualizados['nome'] = data['nome']
 
-    # Valida o nome
-    if not nome or not validar_nome(nome):
-        return jsonify({"error": "O nome é inválido. Deve conter apenas letras e espaços, e ter pelo menos 2 caracteres."}), 400
+    if 'cpf' in data:
+        if not validar_cpf(data['cpf']):
+            return jsonify({"error": "CPF inválido."}), 400
+        campos_atualizados['cpf'] = data['cpf']
 
-    # Valida o email
-    if not email:
-        return jsonify({"error": "O campo 'email' é obrigatório."}), 400
+    if 'email' in data:
+        if not data['email'] or "@" not in data['email']:
+            return jsonify({"error": "Email inválido."}), 400
+        campos_atualizados['email'] = data['email']
 
-    # Atualiza os dados do usuário estático
-    usuario["nome"] = nome
-    usuario["cpf"] = cpf
-    usuario["email"] = email
-    usuario["senha"] = nova_senha or usuario["senha"]
+    if 'nova_senha' in data:
+        campos_atualizados['senha'] = data['nova_senha']
 
-    if usuario["professor"]:
-        siape = data.get("siape")
-        if siape:
-            usuario["siape"] = siape
+    if 'siape' in data and usuario['professor']:
+        campos_atualizados['siape'] = data['siape']
 
-    return jsonify({"message": "Perfil atualizado com sucesso!", "usuario": usuario}), 200
+    if not campos_atualizados:
+        return jsonify({"error": "Nenhum campo válido para atualização foi enviado."}), 400
+
+    usuario.update(campos_atualizados)
+
+    return jsonify({
+        "message": "Perfil atualizado com sucesso!",
+        "campos_atualizados": list(campos_atualizados.keys()),
+        "usuario": {
+            "nome": usuario["nome"],
+            "email": usuario["email"],
+            "cpf": usuario["cpf"],
+            "professor": usuario["professor"],
+            "siape": usuario.get("siape")
+        }
+    }), 200

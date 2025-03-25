@@ -133,20 +133,38 @@
   max-width: 50%;
 }
 
+/* Estilos atualizados para avaliações e comentários */
 .rating {
   display: flex;
+  align-items: center;
+  margin: 8px 0;
   gap: 5px;
 }
 
+.ratingValue {
+  margin-left: 8px;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.commentContainer {
+  margin-top: 8px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  max-width: 100%;
+}
+
 .comment {
+  margin: 4px 0 0 0;
   font-style: italic;
   color: #666;
-  text-align: right;
-  margin: 0;
+  word-break: break-word;
+  text-align: left;
 }
 
 .starFilled {
-  color: #ffc107;
+  color: gold;
 }
 
 .starEmpty {
