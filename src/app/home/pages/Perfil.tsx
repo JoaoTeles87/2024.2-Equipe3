@@ -7,6 +7,7 @@ import ErrorMessage from '../../../shared/components/ErrorMessage';
 import Modal from '../../../shared/components/Modal/Modal';
 import SideBar from "../../../shared/components/SideBar/SideBar";
 import stylesSideBar from "../../../shared/components/SideBar/SideBar.module.css";
+import EditProfileModal from '../components/EditProfileModal/EditProfileModal';
 
 interface UserProfile {
   id: number;
@@ -220,7 +221,7 @@ const Perfil = () => {
     setDeleteError('');
   };
 
-  const handleConfirmDelete = async () => {
+ const handleConfirmDelete = async () => {
     try {
       // Verifica se há reserva ativa
       if (nextReservation) {
@@ -277,50 +278,64 @@ const Perfil = () => {
 
           {profile ? (
             <>
-              <div className={styles.profileSection}>
-                <div className={styles.profileField}>
-                  <span className={styles.label}>Nome:</span>
-                  <span className={styles.value}>{profile.nome}</span>
-                  <div className={styles.actionButtons}>
-                    <div className={styles.editButton} onClick={handleEdit}>
-                      <FaEdit className={styles.editIcon} />
-                      <span>Editar</span>
-                    </div>
-                    <Button
-                      onClick={handleDeleteClick}
-                      variant="danger"
-                      className={styles.deleteAccountOutline}
-                    >
-                      Excluir conta
-                    </Button>
-                  </div>
-                </div>
+                <div data-testid="profile-section" className={styles.profileSection}>
+  <div className={styles.profileHeader}>
+    <div className={styles.profileInfo}>
+      <div data-testid="profile-data" className={styles.profileData}>
+        <div className={styles.profileField}>
+          <span className={styles.label}>Nome:</span>
+          <span className={styles.value}>{profile.nome}</span>
+        </div>
 
-                <div className={styles.profileField}>
-                  <span className={styles.label}>CPF:</span>
-                  <span className={styles.value}>{profile.cpf}</span>
-                </div>
+        <div className={styles.profileField}>
+          <span className={styles.label}>Email:</span>
+          <span className={styles.value}>{profile.email}</span>
+        </div>
 
-                <div className={styles.profileField}>
-                  <span className={styles.label}>E-mail:</span>
-                  <span className={styles.value}>{profile.email}</span>
-                </div>
+        <div className={styles.profileField}>
+          <span className={styles.label}>CPF:</span>
+          <span className={styles.value}>{profile.cpf}</span>
+        </div>
 
-                {profile.professor === 'S' && (
-                  <div className={styles.profileField}>
-                    <span className={styles.label}>SIAPE:</span>
-                    <span className={styles.value}>{profile.siape}</span>
-                  </div>
-                )}
-              </div>
+        {profile.professor === 'S' && (
+          <div className={styles.profileField}>
+            <span className={styles.label}>SIAPE:</span>
+            <span className={styles.value}>{profile.siape}</span>
+          </div>
+        )}
+      </div>
+    </div>
 
-              <div className={styles.reservationSection}>
+    <div className={styles.actionButtons}>
+      <Button 
+        data-testid="edit-button"
+        onClick={handleEdit}
+        className={styles.editButton}
+      >
+        <FaEdit className={styles.editIcon} />
+        <span>Editar</span>
+      </Button>
+      
+      <Button
+        data-testid="delete-button"
+        onClick={handleDeleteClick}
+        variant="danger"
+        className={styles.deleteButton}
+      >
+        Excluir conta
+      </Button>
+    </div>
+  </div>
+</div>
+
+              <div data-testid="reservation-section" className={styles.reservationSection}>
                 <h2 className={styles.reservationTitle}>Próxima Reserva</h2>
                 {nextReservation ? (
                   <div className={styles.reservationCard}>
                     <div className={styles.reservationHeader}>
                       <p>Sala: {nextReservation.sala?.nome}</p>
                       <Button
+                        data-testid="delete-reservation-button"
                         onClick={() => handleDeleteReservation(nextReservation.id)}
                         variant="danger"
                         className={styles.deleteButton}
@@ -338,7 +353,7 @@ const Perfil = () => {
                 )}
               </div>
 
-              <div className={styles.historySection}>
+              <div data-testid="history-section"className={styles.historySection}>
                 <h2 className={styles.reservationTitle}>Histórico de Reservas</h2>
                 {reservationHistory.length > 0 ? (
                   reservationHistory.map((reserva) => (
@@ -416,7 +431,7 @@ const Perfil = () => {
                 <Button variant="secondary" onClick={() => setIsEditModalOpen(false)}>
                   Cancelar
                 </Button>
-                <Button variant="primary" onClick={handleSaveEdit}>
+                <Button data-testid="save-button" variant="primary" onClick={handleSaveEdit}>
                   Salvar alterações
                 </Button>
               </div>
@@ -446,7 +461,7 @@ const Perfil = () => {
                 <Button variant="secondary" onClick={() => setIsDeleteModalOpen(false)}>
                   Cancelar
                 </Button>
-                <Button variant="danger" onClick={handleConfirmDelete}>
+                <Button data-testid="confirm-delete-button" variant="danger" onClick={handleConfirmDelete}>
                   Excluir conta
                 </Button>
               </div>
